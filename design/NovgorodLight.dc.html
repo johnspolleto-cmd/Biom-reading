@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap">
+  <style>
+    body { margin: 0; background: #f2efe8; font-family: "Golos Text", system-ui, sans-serif; color: #23211d; }
+    a { color: #3f6577; text-decoration: none; } a:hover { color: #2c4856; }
+    .num { font-family: "JetBrains Mono", ui-monospace, Menlo, monospace; font-variant-numeric: tabular-nums; }
+    .disp { font-family: "Unbounded", system-ui, sans-serif; }
+  </style>
+</helmet>
+
+<div style="width: 900px; min-height: 780px; box-sizing: border-box; background: #f2efe8; padding: 28px 32px; display: flex; flex-direction: column; gap: 18px">
+
+  <div style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 18px; border-bottom: 1px solid #ddd6c8">
+    <div style="display: flex; align-items: center; gap: 12px">
+      <svg width="32" height="32" viewBox="0 0 64 64"><path fill-rule="evenodd" fill="#23211d" d="M32 62a24 24 0 1 1 0-48 24 24 0 0 1 0 48Zm0-13a11 11 0 1 0 0-22 11 11 0 0 0 0 22Z"></path><path fill="#23211d" d="M35 4h22L40 24l-9-8Z"></path></svg>
+      <div class="disp" style="font-size: 16px; font-weight: 800; letter-spacing: 0.08em">ЧИТКОД</div>
+    </div>
+    <div style="font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #8d8577">Альтернатива · Новгородский свет</div>
+  </div>
+
+  <div style="background: #fbf9f4; border: 1px solid #ddd6c8; border-left: 3px solid #a8763a; border-radius: 14px; padding: 24px 26px">
+    <div style="font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #a8763a; margin-bottom: 8px">Челлендж недели · 24.08–30.08</div>
+    <div class="disp" style="font-size: 26px; font-weight: 600; line-height: 1.15; text-wrap: pretty">Прочитать 500 страниц за неделю</div>
+    <div style="font-size: 14px; color: #6d675c; margin-top: 6px">Главный забег недели. Засчитывается автоматически по журналу.</div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px">
+    <div style="background: #fbf9f4; border: 1px solid #ddd6c8; border-radius: 14px; padding: 16px 18px">
+      <div class="num" style="font-size: 28px; font-weight: 700; color: #3f6577">10 605</div>
+      <div style="font-size: 12px; color: #8d8577; margin-top: 2px">страниц клубом</div>
+    </div>
+    <div style="background: #fbf9f4; border: 1px solid #ddd6c8; border-radius: 14px; padding: 16px 18px">
+      <div class="num" style="font-size: 28px; font-weight: 700">2 015</div>
+      <div style="font-size: 12px; color: #8d8577; margin-top: 2px">за эту неделю</div>
+    </div>
+    <div style="background: #fbf9f4; border: 1px solid #ddd6c8; border-radius: 14px; padding: 16px 18px">
+      <div class="num" style="font-size: 28px; font-weight: 700">9</div>
+      <div style="font-size: 12px; color: #8d8577; margin-top: 2px">книг дочитано</div>
+    </div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 10px">
+
+    <div style="display: grid; grid-template-columns: 44px minmax(180px, 1.4fr) 150px 110px 130px; gap: 14px; align-items: center; background: #fbf9f4; border: 1px solid #ddd6c8; border-left: 3px solid #6d4fa8; border-radius: 14px; padding: 16px">
+      <div class="num" style="font-size: 20px; font-weight: 700; color: #a8763a; text-align: center">1</div>
+      <div style="display: flex; align-items: center; gap: 12px">
+        <svg width="44" height="44" viewBox="0 0 96 96" style="flex-shrink: 0"><g fill="none" stroke="#6d4fa8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8q24 2 28 28" opacity=".35"></path><path d="M90 8q-24 2-28 28" opacity=".35"></path><path d="M48 30q20 0 20 22t-20 32q-20-10-20-32t20-22Z"></path><path d="M48 34v46M30 52h36M34 66h28" opacity=".5"></path></g><path fill="#6d4fa8" d="M36 48q4-6 9-2t-3 10q-8 2-6-8Zm24 0q-4-6-9-2t3 10q8 2 6-8Z"></path></svg>
+        <div>
+          <div style="font-size: 16px; font-weight: 600">Пётр Смирнов</div>
+          <div style="font-size: 13px; color: #8d8577">Умберто Эко — «Имя розы»</div>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <div style="font-size: 13px; font-weight: 600; color: #6d4fa8">Паучок</div>
+        <div style="height: 8px; border-radius: 999px; background: #e7e2d6; overflow: hidden"><div style="width: 0%; height: 100%; background: #6d4fa8"></div></div>
+      </div>
+      <div class="num" style="font-size: 24px; font-weight: 700; color: #3f6577">5 000</div>
+      <div>
+        <div class="num" style="font-size: 15px; font-weight: 700; color: #6d675c">0 %</div>
+        <div style="font-size: 11px; color: #8d8577">800 за неделю</div>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 44px minmax(180px, 1.4fr) 150px 110px 130px; gap: 14px; align-items: center; background: #fbf9f4; border: 1px solid #ddd6c8; border-left: 3px solid #c19a12; border-radius: 14px; padding: 16px">
+      <div class="num" style="font-size: 20px; font-weight: 700; color: #8d8577; text-align: center">4</div>
+      <div style="display: flex; align-items: center; gap: 12px">
+        <svg width="44" height="44" viewBox="0 0 96 96" style="flex-shrink: 0"><path d="M48 12v-6" fill="none" stroke="#c19a12" stroke-width="4" stroke-linecap="round"></path><path d="M28 44q0-32 20-32t20 32v10q0 18-20 26-20-8-20-26Z" fill="none" stroke="#c19a12" stroke-width="4" stroke-linejoin="round"></path><path d="M34 44h28l-6 14H40Z" fill="#c19a12"></path><g stroke="#c19a12" stroke-width="3" stroke-linecap="round"><path d="M40 68h16M43 76h10"></path></g></svg>
+        <div>
+          <div style="font-size: 16px; font-weight: 600">Анна Ковалёва</div>
+          <div style="font-size: 13px; color: #8d8577">Донна Тартт — «Щегол»</div>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <div style="font-size: 13px; font-weight: 600; color: #c19a12">Жёлтый рейнджер</div>
+        <div style="height: 8px; border-radius: 999px; background: #e7e2d6; overflow: hidden"><div style="width: 0%; height: 100%; background: #c19a12"></div></div>
+      </div>
+      <div class="num" style="font-size: 24px; font-weight: 700">1 000</div>
+      <div>
+        <div class="num" style="font-size: 15px; font-weight: 700; color: #2f7d52">+30 %</div>
+        <div style="font-size: 11px; color: #8d8577">260 за неделю</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="display: flex; justify-content: center; margin-top: 6px">
+    <div style="display: flex; align-items: center; justify-content: center; gap: 10px; height: 56px; padding: 0 32px; border-radius: 999px; background: #23211d; color: #f2efe8; font-size: 17px; font-weight: 700">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f2efe8" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+      страницы
+    </div>
+  </div>
+
+  <div style="font-size: 13px; color: #6d675c; text-wrap: pretty; margin-top: 4px">Дневная противоположность основной тёмной: белёный камень, лён, холодная сталь как акцент, латунь на достижениях. Спокойнее и привычнее, но теряет главный приём — светящийся счётчик, который на светлом фоне не светится.</div>
+
+</div>
+</x-dc>
+</body>
+</html>

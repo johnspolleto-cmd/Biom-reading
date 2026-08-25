@@ -8,3 +8,6 @@ backups/*.gz
 backups/*.sql
 .pytest_cache/
 .caddy/
+
+# Собранный холст Claude Design — 2,5 МБ кода редактора, пересобирается из .dc.html
+design/chitkod-visual-language.html

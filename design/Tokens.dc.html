@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap">
+  <style>
+    body { margin: 0; background: #0a0b0d; font-family: "Golos Text", system-ui, sans-serif; color: #e9edf1; }
+    a { color: #45d6a2; text-decoration: none; } a:hover { color: #6fe6ba; }
+    .num { font-family: "JetBrains Mono", ui-monospace, Menlo, monospace; font-variant-numeric: tabular-nums; }
+    .disp { font-family: "Unbounded", system-ui, sans-serif; }
+    .lbl { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #5f6973; }
+  </style>
+</helmet>
+
+<div style="width: 1160px; min-height: 900px; box-sizing: border-box; padding: 36px 40px; background: #0a0b0d; display: flex; flex-direction: column; gap: 30px">
+
+  <div>
+    <div class="disp" style="font-size: 22px; font-weight: 600; margin-bottom: 6px">Хроно-Биом · система</div>
+    <div style="font-size: 14px; color: #98a3ad; max-width: 760px; text-wrap: pretty">Холодный хром — это состояние. Тёплая латунь — это достижение. Свечение только на числах и прогресс-барах, больше нигде.</div>
+  </div>
+
+  <!-- логотип -->
+  <div>
+    <div class="lbl" style="margin-bottom: 14px">Логотип · плоская монохромная версия</div>
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px">
+      <div style="background: #121417; border: 1px solid #262c33; border-radius: 14px; padding: 24px; display: flex; align-items: center; justify-content: center; gap: 14px">
+        <svg width="48" height="48" viewBox="0 0 64 64"><path fill-rule="evenodd" fill="#e9edf1" d="M32 62a24 24 0 1 1 0-48 24 24 0 0 1 0 48Zm0-13a11 11 0 1 0 0-22 11 11 0 0 0 0 22Z"></path><path fill="#e9edf1" d="M35 4h22L40 24l-9-8Z"></path></svg>
+        <div class="disp" style="font-size: 20px; font-weight: 800; letter-spacing: 0.06em">ЧИТКОД</div>
+      </div>
+      <div style="background: #121417; border: 1px solid #262c33; border-radius: 14px; padding: 24px; display: flex; align-items: center; justify-content: center">
+        <svg width="48" height="48" viewBox="0 0 64 64"><path fill-rule="evenodd" fill="#e9edf1" d="M32 62a24 24 0 1 1 0-48 24 24 0 0 1 0 48Zm0-13a11 11 0 1 0 0-22 11 11 0 0 0 0 22Z"></path><path fill="#e9edf1" d="M35 4h22L40 24l-9-8Z"></path></svg>
+      </div>
+      <div style="background: #e9edf1; border: 1px solid #262c33; border-radius: 14px; padding: 24px; display: flex; align-items: center; justify-content: center">
+        <svg width="48" height="48" viewBox="0 0 64 64"><path fill-rule="evenodd" fill="#0a0b0d" d="M32 62a24 24 0 1 1 0-48 24 24 0 0 1 0 48Zm0-13a11 11 0 1 0 0-22 11 11 0 0 0 0 22Z"></path><path fill="#0a0b0d" d="M35 4h22L40 24l-9-8Z"></path></svg>
+      </div>
+      <div style="background: #121417; border: 1px solid #262c33; border-radius: 14px; padding: 24px; display: flex; align-items: center; justify-content: center; gap: 20px">
+        <svg width="24" height="24" viewBox="0 0 64 64"><path fill-rule="evenodd" fill="#e9edf1" d="M32 62a24 24 0 1 1 0-48 24 24 0 0 1 0 48Zm0-13a11 11 0 1 0 0-22 11 11 0 0 0 0 22Z"></path><path fill="#e9edf1" d="M35 4h22L40 24l-9-8Z"></path></svg>
+        <svg width="16" height="16" viewBox="0 0 64 64"><path fill-rule="evenodd" fill="#e9edf1" d="M32 62a24 24 0 1 1 0-48 24 24 0 0 1 0 48Zm0-13a11 11 0 1 0 0-22 11 11 0 0 0 0 22Z"></path><path fill="#e9edf1" d="M35 4h22L40 24l-9-8Z"></path></svg>
+      </div>
+    </div>
+    <div style="font-size: 12px; color: #5f6973; margin-top: 8px">Кольцо литеры «б» работает и отдельно: рамка аватарки, маркер списка, кольцевой прогресс.</div>
+  </div>
+
+  <!-- палитра -->
+  <div>
+    <div class="lbl" style="margin-bottom: 14px">Основа · тёмная тема</div>
+    <div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px">
+      <div style="border: 1px solid #262c33; border-radius: 12px; overflow: hidden"><div style="height: 70px; background: #0a0b0d"></div><div style="padding: 10px 12px"><div style="font-size: 12px; font-weight: 600">Сцена</div><div class="num" style="font-size: 11px; color: #5f6973">#0a0b0d</div></div></div>
+      <div style="border: 1px solid #262c33; border-radius: 12px; overflow: hidden"><div style="height: 70px; background: #121417"></div><div style="padding: 10px 12px"><div style="font-size: 12px; font-weight: 600">Поверхность</div><div class="num" style="font-size: 11px; color: #5f6973">#121417</div></div></div>
+      <div style="border: 1px solid #262c33; border-radius: 12px; overflow: hidden"><div style="height: 70px; background: #171b20"></div><div style="padding: 10px 12px"><div style="font-size: 12px; font-weight: 600">Своя строка</div><div class="num" style="font-size: 11px; color: #5f6973">#171b20</div></div></div>
+      <div style="border: 1px solid #262c33; border-radius: 12px; overflow: hidden"><div style="height: 70px; background: #262c33"></div><div style="padding: 10px 12px"><div style="font-size: 12px; font-weight: 600">Обводка</div><div class="num" style="font-size: 11px; color: #5f6973">#262c33</div></div></div>
+      <div style="border: 1px solid #262c33; border-radius: 12px; overflow: hidden"><div style="height: 70px; background: #e9edf1"></div><div style="padding: 10px 12px"><div style="font-size: 12px; font-weight: 600">Хром · текст</div><div class="num" style="font-size: 11px; color: #5f6973">#e9edf1</div></div></div>
+      <div style="border: 1px solid #262c33; border-radius: 12px; overflow: hidden"><div style="height: 70px; background: #5f6973"></div><div style="padding: 10px 12px"><div style="font-size: 12px; font-weight: 600">Приглушённый</div><div class="num" style="font-size: 11px; color: #5f6973">#5f6973</div></div></div>
+    </div>
+  </div>
+
+  <div>
+    <div class="lbl" style="margin-bottom: 14px">Два акцента · одна светлота и хрома, разный тон</div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px">
+      <div style="border: 1px solid #262c33; border-radius: 12px; overflow: hidden"><div style="height: 70px; background: #45d6a2"></div><div style="padding: 10px 12px"><div style="font-size: 12px; font-weight: 600; color: #45d6a2">Хроно-зелёный · состояние</div><div class="num" style="font-size: 11px; color: #5f6973">#45d6a2 · oklch(.78 .14 165)</div></div></div>
+      <div style="border: 1px solid #262c33; border-radius: 12px; overflow: hidden"><div style="height: 70px; background: #d9a35c"></div><div style="padding: 10px 12px"><div style="font-size: 12px; font-weight: 600; color: #d9a35c">Латунь · достижение</div><div class="num" style="font-size: 11px; color: #5f6973">#d9a35c · oklch(.78 .14 75)</div></div></div>
+      <div style="border: 1px solid #262c33; border-radius: 12px; overflow: hidden"><div style="height: 70px; background: #e8695f"></div><div style="padding: 10px 12px"><div style="font-size: 12px; font-weight: 600; color: #e8695f">Падение</div><div class="num" style="font-size: 11px; color: #5f6973">#e8695f</div></div></div>
+    </div>
+  </div>
+
+  <div>
+    <div class="lbl" style="margin-bottom: 14px">Цвета уровней · пересчитаны под тёмную сцену</div>
+    <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 10px">
+      <div style="border: 1px solid #262c33; border-radius: 10px; overflow: hidden"><div style="height: 46px; background: #6b7684"></div><div class="num" style="padding: 8px; font-size: 10px; color: #5f6973">#6b7684</div></div>
+      <div style="border: 1px solid #262c33; border-radius: 10px; overflow: hidden"><div style="height: 46px; background: #e39ac0"></div><div class="num" style="padding: 8px; font-size: 10px; color: #5f6973">#e39ac0</div></div>
+      <div style="border: 1px solid #262c33; border-radius: 10px; overflow: hidden"><div style="height: 46px; background: #6fc7ee"></div><div class="num" style="padding: 8px; font-size: 10px; color: #5f6973">#6fc7ee</div></div>
+      <div style="border: 1px solid #262c33; border-radius: 10px; overflow: hidden"><div style="height: 46px; background: #e8c547"></div><div class="num" style="padding: 8px; font-size: 10px; color: #5f6973">#e8c547</div></div>
+      <div style="border: 1px solid #262c33; border-radius: 10px; overflow: hidden"><div style="height: 46px; background: #e08a4a"></div><div class="num" style="padding: 8px; font-size: 10px; color: #5f6973">#e08a4a</div></div>
+      <div style="border: 1px solid #262c33; border-radius: 10px; overflow: hidden"><div style="height: 46px; background: #a98cf0"></div><div class="num" style="padding: 8px; font-size: 10px; color: #5f6973">#a98cf0</div></div>
+      <div style="border: 1px solid #262c33; border-radius: 10px; overflow: hidden"><div style="height: 46px; background: #45d6a2"></div><div class="num" style="padding: 8px; font-size: 10px; color: #5f6973">#45d6a2</div></div>
+    </div>
+    <div style="font-size: 12px; color: #5f6973; margin-top: 8px">Шестой уровень намеренно совпадает с акцентом системы: дойдя до вершины, читатель становится ею.</div>
+  </div>
+
+  <!-- типографика -->
+  <div>
+    <div class="lbl" style="margin-bottom: 14px">Типографика</div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px">
+      <div style="background: #121417; border: 1px solid #262c33; border-radius: 14px; padding: 20px">
+        <div class="disp" style="font-size: 30px; font-weight: 800; line-height: 1.1">Хранитель Биома</div>
+        <div style="font-size: 12px; color: #5f6973; margin-top: 12px">Unbounded · заголовки и названия уровней · 400/600/800</div>
+      </div>
+      <div style="background: #121417; border: 1px solid #262c33; border-radius: 14px; padding: 20px">
+        <div style="font-size: 17px; line-height: 1.45">Съешь же ещё этих мягких французских булок да выпей чаю — и займись наконец чтением.</div>
+        <div style="font-size: 12px; color: #5f6973; margin-top: 12px">Golos Text · весь текст интерфейса · 400/500/600/700</div>
+      </div>
+      <div style="background: #121417; border: 1px solid #262c33; border-radius: 14px; padding: 20px">
+        <div class="num" style="font-size: 30px; font-weight: 700; color: #45d6a2; text-shadow: 0 0 24px rgba(69,214,162,0.4)">10 605</div>
+        <div class="num" style="font-size: 17px; color: #98a3ad; margin-top: 4px">1 000 · 5 000 · +30 % · −100 %</div>
+        <div style="font-size: 12px; color: #5f6973; margin-top: 12px">JetBrains Mono · только числа · табличные цифры, разряды не прыгают при пересортировке</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- состояния недельной динамики -->
+  <div>
+    <div class="lbl" style="margin-bottom: 14px">Недельная динамика · четыре состояния</div>
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px">
+      <div style="background: #121417; border: 1px solid #262c33; border-radius: 12px; padding: 16px 18px">
+        <div class="num" style="font-size: 20px; font-weight: 700; color: #45d6a2">+30 %</div>
+        <div style="font-size: 12px; color: #5f6973; margin-top: 4px">рост к прошлой неделе</div>
+      </div>
+      <div style="background: #121417; border: 1px solid #262c33; border-radius: 12px; padding: 16px 18px">
+        <div class="num" style="font-size: 20px; font-weight: 700; color: #e8695f">−100 %</div>
+        <div style="font-size: 12px; color: #5f6973; margin-top: 4px">падение</div>
+      </div>
+      <div style="background: #121417; border: 1px solid #262c33; border-radius: 12px; padding: 16px 18px">
+        <div style="font-size: 16px; font-weight: 700; color: #d9a35c; letter-spacing: 0.08em; text-transform: uppercase">старт</div>
+        <div style="font-size: 12px; color: #5f6973; margin-top: 6px">прошлая неделя нулевая — делить не на что</div>
+      </div>
+      <div style="background: #121417; border: 1px solid #262c33; border-radius: 12px; padding: 16px 18px">
+        <div style="font-size: 16px; font-weight: 700; color: #5f6973; letter-spacing: 0.08em; text-transform: uppercase">пауза</div>
+        <div style="font-size: 12px; color: #5f6973; margin-top: 6px">обе недели нулевые</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>
