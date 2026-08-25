@@ -16,6 +16,14 @@
   </style>
 </helmet>
 
+<!-- Процарапывание: шум сдвигает контур, как стило по бересте. Только на аватарках. -->
+<svg width="0" height="0" style="position: absolute" aria-hidden="true"><defs>
+  <filter id="beresta" x="-14%" y="-14%" width="128%" height="128%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.25" numOctaves="2" seed="7" result="n"></feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+  </filter>
+</defs></svg>
+
 <div style="width: 375px; min-height: 920px; background: #0a0b0d; background-image: radial-gradient(140% 60% at 50% 0%, rgba(69,214,162,0.08), transparent 55%); position: relative; box-sizing: border-box">
 
   <!-- шапка -->
@@ -64,7 +72,7 @@
     <div style="background: #121417; border: 1px solid #262c33; border-left: 3px solid #a98cf0; border-radius: 14px; padding: 12px; display: flex; flex-direction: column; gap: 10px">
       <div style="display: flex; align-items: center; gap: 10px">
         <div class="num" style="width: 28px; font-size: 17px; font-weight: 700; color: #d9a35c; text-align: center">1</div>
-        <svg width="44" height="44" viewBox="0 0 96 96" style="flex-shrink: 0"><g fill="none" stroke="#a98cf0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 8q22 2 26 26" opacity=".4"></path><path d="M88 8q-22 2-26 26" opacity=".4"></path><path d="M48 30q20 0 20 22t-20 32q-20-10-20-32t20-22Z"></path><path d="M48 34v46M30 52h36M34 66h28" opacity=".55"></path></g><path fill="#a98cf0" d="M36 48q4-6 9-2t-3 10q-8 2-6-8Zm24 0q-4-6-9-2t3 10q8 2 6-8Z"></path></svg>
+        <svg width="44" height="44" viewBox="0 0 96 96" style="flex-shrink: 0"><g filter="url(#beresta)"><g fill="none" stroke="#a98cf0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 8q22 2 26 26" opacity=".4"></path><path d="M88 8q-22 2-26 26" opacity=".4"></path><path d="M48 30q20 0 20 22t-20 32q-20-10-20-32t20-22Z"></path><path d="M48 34v46M30 52h36M34 66h28" opacity=".55"></path></g><path fill="#a98cf0" d="M36 48q4-6 9-2t-3 10q-8 2-6-8Zm24 0q-4-6-9-2t3 10q8 2 6-8Z"></path></g></svg>
         <div style="min-width: 0; flex-grow: 1">
           <div style="font-size: 15px; font-weight: 600">Пётр Смирнов</div>
           <div style="font-size: 12px; color: #5f6973">Умберто Эко — «Имя розы»</div>
@@ -92,7 +100,7 @@
     <div style="background: #121417; border: 1px solid #262c33; border-left: 3px solid #e08a4a; border-radius: 14px; padding: 12px; display: flex; flex-direction: column; gap: 10px">
       <div style="display: flex; align-items: center; gap: 10px">
         <div class="num" style="width: 28px; font-size: 17px; font-weight: 700; color: #5f6973; text-align: center">2</div>
-        <svg width="44" height="44" viewBox="0 0 96 96" style="flex-shrink: 0"><g fill="none" stroke="#e08a4a" stroke-width="4" stroke-linecap="round"><circle cx="24" cy="44" r="15" opacity=".22"></circle><circle cx="74" cy="42" r="14" opacity=".22"></circle><circle cx="48" cy="56" r="24"></circle><path d="M40 66q8 6 16 0" opacity=".8"></path></g><g fill="#e08a4a"><ellipse cx="39" cy="50" rx="4" ry="5"></ellipse><ellipse cx="57" cy="50" rx="4" ry="5"></ellipse></g></svg>
+        <svg width="44" height="44" viewBox="0 0 96 96" style="flex-shrink: 0"><g filter="url(#beresta)"><g fill="none" stroke="#e08a4a" stroke-width="4" stroke-linecap="round"><circle cx="24" cy="44" r="15" opacity=".22"></circle><circle cx="74" cy="42" r="14" opacity=".22"></circle><circle cx="48" cy="56" r="24"></circle><path d="M40 66q8 6 16 0" opacity=".8"></path></g><g fill="#e08a4a"><ellipse cx="39" cy="50" rx="4" ry="5"></ellipse><ellipse cx="57" cy="50" rx="4" ry="5"></ellipse></g></g></svg>
         <div style="min-width: 0; flex-grow: 1">
           <div style="font-size: 15px; font-weight: 600">Илья Рогачёв</div>
           <div style="font-size: 12px; color: #5f6973">Станислав Лем — «Солярис»</div>
@@ -120,7 +128,7 @@
     <div style="background: #121417; border: 1px solid #262c33; border-left: 3px solid #e8c547; border-radius: 14px; padding: 12px; display: flex; flex-direction: column; gap: 10px">
       <div style="display: flex; align-items: center; gap: 10px">
         <div class="num" style="width: 28px; font-size: 17px; font-weight: 700; color: #5f6973; text-align: center">3</div>
-        <svg width="44" height="44" viewBox="0 0 96 96" style="flex-shrink: 0"><path d="M48 12v-6" fill="none" stroke="#e8c547" stroke-width="4" stroke-linecap="round"></path><path d="M28 44q0-32 20-32t20 32v10q0 18-20 26-20-8-20-26Z" fill="none" stroke="#e8c547" stroke-width="4" stroke-linejoin="round"></path><path d="M34 44h28l-6 14H40Z" fill="#e8c547"></path><g stroke="#e8c547" stroke-width="3" stroke-linecap="round"><path d="M40 68h16M43 76h10"></path></g></svg>
+        <svg width="44" height="44" viewBox="0 0 96 96" style="flex-shrink: 0"><g filter="url(#beresta)"><path d="M48 12v-6" fill="none" stroke="#e8c547" stroke-width="4" stroke-linecap="round"></path><path d="M28 44q0-32 20-32t20 32v10q0 18-20 26-20-8-20-26Z" fill="none" stroke="#e8c547" stroke-width="4" stroke-linejoin="round"></path><path d="M34 44h28l-6 14H40Z" fill="#e8c547"></path><g stroke="#e8c547" stroke-width="3" stroke-linecap="round"><path d="M40 68h16M43 76h10"></path></g></g></svg>
         <div style="min-width: 0; flex-grow: 1">
           <div style="font-size: 15px; font-weight: 600">Дмитрий Ветров</div>
           <div style="font-size: 12px; color: #5f6973">Виктор Пелевин — «Чапаев и Пустота»</div>
@@ -148,7 +156,7 @@
     <div style="background: #171b20; border: 1px solid #45d6a2; border-left: 3px solid #e8c547; border-radius: 14px; padding: 12px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 0 0 3px rgba(69,214,162,0.1)">
       <div style="display: flex; align-items: center; gap: 10px">
         <div class="num" style="width: 28px; font-size: 17px; font-weight: 700; color: #5f6973; text-align: center">4</div>
-        <svg width="44" height="44" viewBox="0 0 96 96" style="flex-shrink: 0"><path d="M48 12v-6" fill="none" stroke="#e8c547" stroke-width="4" stroke-linecap="round"></path><path d="M28 44q0-32 20-32t20 32v10q0 18-20 26-20-8-20-26Z" fill="none" stroke="#e8c547" stroke-width="4" stroke-linejoin="round"></path><path d="M34 44h28l-6 14H40Z" fill="#e8c547"></path><g stroke="#e8c547" stroke-width="3" stroke-linecap="round"><path d="M40 68h16M43 76h10"></path></g></svg>
+        <svg width="44" height="44" viewBox="0 0 96 96" style="flex-shrink: 0"><g filter="url(#beresta)"><path d="M48 12v-6" fill="none" stroke="#e8c547" stroke-width="4" stroke-linecap="round"></path><path d="M28 44q0-32 20-32t20 32v10q0 18-20 26-20-8-20-26Z" fill="none" stroke="#e8c547" stroke-width="4" stroke-linejoin="round"></path><path d="M34 44h28l-6 14H40Z" fill="#e8c547"></path><g stroke="#e8c547" stroke-width="3" stroke-linecap="round"><path d="M40 68h16M43 76h10"></path></g></g></svg>
         <div style="min-width: 0; flex-grow: 1">
           <div style="font-size: 15px; font-weight: 600">Анна Ковалёва</div>
           <div style="font-size: 12px; color: #5f6973">Донна Тартт — «Щегол»</div>

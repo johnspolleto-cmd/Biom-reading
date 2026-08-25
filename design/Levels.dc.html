@@ -16,9 +16,21 @@
   </style>
 </helmet>
 
+<!-- Процарапывание: шум сдвигает контур, как стило по бересте. Только на аватарках. -->
+<svg width="0" height="0" style="position: absolute" aria-hidden="true"><defs>
+  <filter id="beresta" x="-14%" y="-14%" width="128%" height="128%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.25" numOctaves="2" seed="7" result="n"></feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+  </filter>
+  <filter id="beresta-text" x="-8%" y="-20%" width="116%" height="140%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.3" numOctaves="3" seed="11" result="t"></feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="t" scale="1.0" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+  </filter>
+</defs></svg>
+
 <div style="width: 1160px; min-height: 680px; box-sizing: border-box; padding: 36px 40px; background: #0a0b0d">
 
-  <div class="disp" style="font-size: 22px; font-weight: 600; margin-bottom: 6px">Семь уровней</div>
+  <div class="disp" style="font-size: 22px; font-weight: 600; margin-bottom: 6px; filter: url(#beresta-text)">Семь уровней</div>
   <div style="font-size: 14px; color: #98a3ad; margin-bottom: 4px; max-width: 720px; text-wrap: pretty">Не биография одного человека, а семь масок. Связывает их техника и нарастающая плотность: ноль — тонкий контур, шестой — плотный и светящийся.</div>
   <div style="font-size: 13px; color: #5f6973; margin-bottom: 28px">Чёрновая отрисовка по референсам клуба. Ползунок сверху проверяет читаемость в мелком размере.</div>
 
@@ -26,43 +38,43 @@
   <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 16px; margin-bottom: 34px">
 
     <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; background: #121417; border: 1px solid #262c33; border-radius: 14px; padding: 18px 10px">
-      <svg viewBox="0 0 96 96" style="width: {{size}}px; height: {{size}}px"><g fill="none" stroke="#6b7684" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="10" width="32" height="28" rx="2" opacity=".35" stroke-width="3"></rect><path d="M14 18h20M14 25h20M14 32h12" opacity=".3" stroke-width="2.5"></path><circle cx="50" cy="36" r="9"></circle><path d="M50 45q-8 5-7 16l1 8"></path><path d="M52 50l12-13 4-8"></path><path d="M44 69l-9 13M44 69l14 6"></path><path d="M33 62v22M33 74h21" opacity=".45"></path></g><circle cx="69" cy="26" r="3.5" fill="#6b7684"></circle></svg>
+      <svg viewBox="0 0 96 96" style="width: {{size}}px; height: {{size}}px"><g filter="url(#beresta)"><g fill="none" stroke="#6b7684" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="10" width="32" height="28" rx="2" opacity=".35" stroke-width="3"></rect><path d="M14 18h20M14 25h20M14 32h12" opacity=".3" stroke-width="2.5"></path><circle cx="50" cy="36" r="9"></circle><path d="M50 45q-8 5-7 16l1 8"></path><path d="M52 50l12-13 4-8"></path><path d="M44 69l-9 13M44 69l14 6"></path><path d="M33 62v22M33 74h21" opacity=".45"></path></g><circle cx="69" cy="26" r="3.5" fill="#6b7684"></circle></g></svg>
       <div style="font-size: 13px; font-weight: 600; color: #6b7684; text-align: center">Новичок</div>
       <div class="num" style="font-size: 12px; color: #5f6973">0</div>
     </div>
 
     <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; background: #121417; border: 1px solid #262c33; border-radius: 14px; padding: 18px 10px">
-      <svg viewBox="0 0 96 96" style="width: {{size}}px; height: {{size}}px"><g fill="none" stroke="#e39ac0" stroke-width="4" stroke-linecap="round"><circle cx="48" cy="52" r="25"></circle><path d="M48 27q5-9-2-13" opacity=".7"></path><path d="M41 64q7 6 14 0"></path></g><g fill="#e39ac0"><circle cx="38" cy="50" r="4.5"></circle><circle cx="58" cy="50" r="4.5"></circle></g></svg>
+      <svg viewBox="0 0 96 96" style="width: {{size}}px; height: {{size}}px"><g filter="url(#beresta)"><g fill="none" stroke="#e39ac0" stroke-width="4" stroke-linecap="round"><circle cx="48" cy="52" r="25"></circle><path d="M48 27q5-9-2-13" opacity=".7"></path><path d="M41 64q7 6 14 0"></path></g><g fill="#e39ac0"><circle cx="38" cy="50" r="4.5"></circle><circle cx="58" cy="50" r="4.5"></circle></g></g></svg>
       <div style="font-size: 13px; font-weight: 600; color: #e39ac0; text-align: center">Младенец</div>
       <div class="num" style="font-size: 12px; color: #5f6973">100</div>
     </div>
 
     <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; background: #121417; border: 1px solid #262c33; border-radius: 14px; padding: 18px 10px">
-      <svg viewBox="0 0 96 96" style="width: {{size}}px; height: {{size}}px"><g fill="none" stroke="#6fc7ee" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><circle cx="38" cy="26" r="9"></circle><path d="M38 35v22"></path><path d="M38 42l-13-5M38 42l14-3"></path><path d="M38 57l-6 22M38 57l12 12-2 8"></path><path d="M18 82h44" opacity=".28"></path><path d="M74 42q7 6 0 14" opacity=".6"></path><path d="M85 36q10 10 0 26" opacity=".3"></path></g></svg>
+      <svg viewBox="0 0 96 96" style="width: {{size}}px; height: {{size}}px"><g filter="url(#beresta)"><g fill="none" stroke="#6fc7ee" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><circle cx="38" cy="26" r="9"></circle><path d="M38 35v22"></path><path d="M38 42l-13-5M38 42l14-3"></path><path d="M38 57l-6 22M38 57l12 12-2 8"></path><path d="M18 82h44" opacity=".28"></path><path d="M74 42q7 6 0 14" opacity=".6"></path><path d="M85 36q10 10 0 26" opacity=".3"></path></g></g></svg>
       <div style="font-size: 13px; font-weight: 600; color: #6fc7ee; text-align: center">Первые шаги</div>
       <div class="num" style="font-size: 12px; color: #5f6973">500</div>
     </div>
 
     <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; background: #121417; border: 1px solid #262c33; border-radius: 14px; padding: 18px 10px">
-      <svg viewBox="0 0 96 96" style="width: {{size}}px; height: {{size}}px"><path d="M48 12v-6" fill="none" stroke="#e8c547" stroke-width="4" stroke-linecap="round"></path><path d="M28 44q0-32 20-32t20 32v10q0 18-20 26-20-8-20-26Z" fill="none" stroke="#e8c547" stroke-width="4" stroke-linejoin="round"></path><path d="M34 44h28l-6 14H40Z" fill="#e8c547"></path><g stroke="#e8c547" stroke-width="3" stroke-linecap="round"><path d="M40 68h16M43 76h10"></path></g></svg>
+      <svg viewBox="0 0 96 96" style="width: {{size}}px; height: {{size}}px"><g filter="url(#beresta)"><path d="M48 12v-6" fill="none" stroke="#e8c547" stroke-width="4" stroke-linecap="round"></path><path d="M28 44q0-32 20-32t20 32v10q0 18-20 26-20-8-20-26Z" fill="none" stroke="#e8c547" stroke-width="4" stroke-linejoin="round"></path><path d="M34 44h28l-6 14H40Z" fill="#e8c547"></path><g stroke="#e8c547" stroke-width="3" stroke-linecap="round"><path d="M40 68h16M43 76h10"></path></g></g></svg>
       <div style="font-size: 13px; font-weight: 600; color: #e8c547; text-align: center">Жёлтый рейнджер</div>
       <div class="num" style="font-size: 12px; color: #5f6973">1 000</div>
     </div>
 
     <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; background: #121417; border: 1px solid #262c33; border-radius: 14px; padding: 18px 10px">
-      <svg viewBox="0 0 96 96" style="width: {{size}}px; height: {{size}}px"><g fill="none" stroke="#e08a4a" stroke-width="4" stroke-linecap="round"><path d="M14 10v22M82 10v20" opacity=".18"></path><circle cx="24" cy="44" r="15" opacity=".22"></circle><circle cx="74" cy="42" r="14" opacity=".22"></circle><circle cx="48" cy="56" r="24"></circle><path d="M40 66q8 6 16 0" opacity=".8"></path></g><g fill="#e08a4a"><ellipse cx="39" cy="50" rx="4" ry="5"></ellipse><ellipse cx="57" cy="50" rx="4" ry="5"></ellipse></g></svg>
+      <svg viewBox="0 0 96 96" style="width: {{size}}px; height: {{size}}px"><g filter="url(#beresta)"><g fill="none" stroke="#e08a4a" stroke-width="4" stroke-linecap="round"><path d="M14 10v22M82 10v20" opacity=".18"></path><circle cx="24" cy="44" r="15" opacity=".22"></circle><circle cx="74" cy="42" r="14" opacity=".22"></circle><circle cx="48" cy="56" r="24"></circle><path d="M40 66q8 6 16 0" opacity=".8"></path></g><g fill="#e08a4a"><ellipse cx="39" cy="50" rx="4" ry="5"></ellipse><ellipse cx="57" cy="50" rx="4" ry="5"></ellipse></g></g></svg>
       <div style="font-size: 13px; font-weight: 600; color: #e08a4a; text-align: center">Колобок</div>
       <div class="num" style="font-size: 12px; color: #5f6973">2 000</div>
     </div>
 
     <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; background: #121417; border: 1px solid #262c33; border-radius: 14px; padding: 18px 10px">
-      <svg viewBox="0 0 96 96" style="width: {{size}}px; height: {{size}}px"><g fill="none" stroke="#a98cf0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8q24 2 28 28" opacity=".4"></path><path d="M90 8q-24 2-28 28" opacity=".4"></path><path d="M48 30q20 0 20 22t-20 32q-20-10-20-32t20-22Z"></path><path d="M48 34v46M30 52h36M34 66h28" opacity=".5"></path></g><path fill="#a98cf0" d="M36 48q4-6 9-2t-3 10q-8 2-6-8Zm24 0q-4-6-9-2t3 10q8 2 6-8Z"></path></svg>
+      <svg viewBox="0 0 96 96" style="width: {{size}}px; height: {{size}}px"><g filter="url(#beresta)"><g fill="none" stroke="#a98cf0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8q24 2 28 28" opacity=".4"></path><path d="M90 8q-24 2-28 28" opacity=".4"></path><path d="M48 30q20 0 20 22t-20 32q-20-10-20-32t20-22Z"></path><path d="M48 34v46M30 52h36M34 66h28" opacity=".5"></path></g><path fill="#a98cf0" d="M36 48q4-6 9-2t-3 10q-8 2-6-8Zm24 0q-4-6-9-2t3 10q8 2 6-8Z"></path></g></svg>
       <div style="font-size: 13px; font-weight: 600; color: #a98cf0; text-align: center">Паучок</div>
       <div class="num" style="font-size: 12px; color: #5f6973">5 000</div>
     </div>
 
     <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; background: #171b20; border: 1px solid #45d6a2; border-radius: 14px; padding: 18px 10px; box-shadow: 0 0 40px rgba(69,214,162,0.15)">
-      <svg viewBox="0 0 96 96" style="width: {{size}}px; height: {{size}}px"><circle cx="48" cy="46" r="32" fill="#45d6a2" opacity=".1"></circle><path d="M26 88l8-38q14-12 28 0l8 38Z" fill="none" stroke="#45d6a2" stroke-width="4" stroke-linejoin="round"></path><path fill-rule="evenodd" fill="#45d6a2" d="M48 62a17 17 0 1 1 0-34 17 17 0 0 1 0 34Zm0-9a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"></path><path fill="#45d6a2" d="M50 22h16L54 36l-6-6Z"></path></svg>
+      <svg viewBox="0 0 96 96" style="width: {{size}}px; height: {{size}}px"><g filter="url(#beresta)"><circle cx="48" cy="46" r="32" fill="#45d6a2" opacity=".1"></circle><path d="M26 88l8-38q14-12 28 0l8 38Z" fill="none" stroke="#45d6a2" stroke-width="4" stroke-linejoin="round"></path><path fill-rule="evenodd" fill="#45d6a2" d="M48 62a17 17 0 1 1 0-34 17 17 0 0 1 0 34Zm0-9a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"></path><path fill="#45d6a2" d="M50 22h16L54 36l-6-6Z"></path></g></svg>
       <div style="font-size: 13px; font-weight: 600; color: #45d6a2; text-align: center">Хранитель Биома</div>
       <div class="num" style="font-size: 12px; color: #5f6973">10 000</div>
     </div>

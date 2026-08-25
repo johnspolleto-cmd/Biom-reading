@@ -16,6 +16,18 @@
   </style>
 </helmet>
 
+<!-- Процарапывание: шум сдвигает контур, как стило по бересте. Только на аватарках. -->
+<svg width="0" height="0" style="position: absolute" aria-hidden="true"><defs>
+  <filter id="beresta" x="-14%" y="-14%" width="128%" height="128%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.25" numOctaves="2" seed="7" result="n"></feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+  </filter>
+  <filter id="beresta-text" x="-8%" y="-20%" width="116%" height="140%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.3" numOctaves="3" seed="11" result="t"></feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="t" scale="1.0" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+  </filter>
+</defs></svg>
+
 <div style="width: 375px; min-height: 660px; box-sizing: border-box; background: #06070a; display: flex; align-items: center; justify-content: center; padding: 20px; position: relative">
 
   <div style="position: absolute; inset: 0; background-image: radial-gradient(60% 40% at 50% 45%, rgba(111,199,238,0.18), transparent 70%)"></div>
@@ -23,11 +35,11 @@
   <div style="position: relative; width: 100%; background: #121417; border: 1px solid #262c33; border-radius: 20px; padding: 32px 24px 26px 24px; display: flex; flex-direction: column; align-items: center; gap: 4px; box-shadow: 0 30px 80px rgba(0,0,0,0.6)">
 
     <div style="width: 200px; height: 200px; display: flex; align-items: center; justify-content: center; border-radius: 999px; background: radial-gradient(circle, rgba(111,199,238,0.16), transparent 65%)">
-      <svg width="168" height="168" viewBox="0 0 96 96"><g fill="none" stroke="#6fc7ee" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><circle cx="38" cy="26" r="9"></circle><path d="M38 35v22"></path><path d="M38 42l-13-5M38 42l14-3"></path><path d="M38 57l-6 22M38 57l12 12-2 8"></path><path d="M18 82h44" opacity=".28"></path><path d="M74 42q7 6 0 14" opacity=".6"></path><path d="M85 36q10 10 0 26" opacity=".3"></path></g></svg>
+      <svg width="168" height="168" viewBox="0 0 96 96"><g filter="url(#beresta)"><g fill="none" stroke="#6fc7ee" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><circle cx="38" cy="26" r="9"></circle><path d="M38 35v22"></path><path d="M38 42l-13-5M38 42l14-3"></path><path d="M38 57l-6 22M38 57l12 12-2 8"></path><path d="M18 82h44" opacity=".28"></path><path d="M74 42q7 6 0 14" opacity=".6"></path><path d="M85 36q10 10 0 26" opacity=".3"></path></g></g></svg>
     </div>
 
     <div style="font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #5f6973; margin-top: 10px">Новый уровень</div>
-    <div class="disp" style="font-size: 26px; font-weight: 800; color: #6fc7ee; text-align: center; line-height: 1.15">Первые шаги</div>
+    <div class="disp" style="font-size: 26px; font-weight: 800; color: #6fc7ee; text-align: center; line-height: 1.15; filter: url(#beresta-text)">Первые шаги</div>
 
     <div style="display: flex; align-items: baseline; gap: 8px; margin-top: 10px">
       <span class="num" style="font-size: 34px; font-weight: 700; color: #45d6a2; text-shadow: 0 0 28px rgba(69,214,162,0.5)">500</span>

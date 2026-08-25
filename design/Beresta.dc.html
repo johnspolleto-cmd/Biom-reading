@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap">
+  <style>
+    body { margin: 0; background: #0a0b0d; font-family: "Golos Text", system-ui, sans-serif; color: #e9edf1; }
+    a { color: #45d6a2; text-decoration: none; } a:hover { color: #6fe6ba; }
+    .num { font-family: "JetBrains Mono", ui-monospace, Menlo, monospace; font-variant-numeric: tabular-nums; }
+    .disp { font-family: "Unbounded", system-ui, sans-serif; }
+    .lbl { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #5f6973; }
+  </style>
+</helmet>
+
+<div style="width: 1000px; min-height: 1040px; box-sizing: border-box; padding: 36px 40px; background: #0a0b0d; display: flex; flex-direction: column; gap: 28px">
+
+  <!-- Процарапывание: шум сдвигает контур, как стило по бересте. -->
+  <svg width="0" height="0" style="position: absolute" aria-hidden="true"><defs>
+    <filter id="beresta" x="-14%" y="-14%" width="128%" height="128%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.25" numOctaves="2" seed="7" result="n"></feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+    </filter>
+    <filter id="beresta-deep" x="-14%" y="-14%" width="128%" height="128%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.4" numOctaves="2" seed="13" result="n"></feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="4.0" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+    </filter>
+  </defs></svg>
+
+  <div>
+    <div class="disp" style="font-size: 22px; font-weight: 600; margin-bottom: 6px">Новгородский слой</div>
+    <div style="font-size: 14px; color: #98a3ad; max-width: 700px; text-wrap: pretty">Второй голос языка. Он звучит ровно в двух местах — на аватарках и в заголовках — и нигде больше. Всё остальное остаётся холодным хромом.</div>
+  </div>
+
+  <!-- правило границы -->
+  <div>
+    <div class="lbl" style="margin-bottom: 14px">Правило границы</div>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+
+      <div style="background: #121417; border: 1px solid #262c33; border-radius: 14px; padding: 20px 22px">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px">
+          <div style="width: 14px; height: 14px; border-radius: 3px; background: #e9edf1"></div>
+          <div style="font-size: 15px; font-weight: 700">Хром — это состояние</div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: #98a3ad">
+          <div>Суммарные страницы и недельные проценты</div>
+          <div>Названия участников, книг, разделов</div>
+          <div>Обводки, поля ввода, вкладки</div>
+          <div>Полоса прогресса до следующего уровня</div>
+        </div>
+        <div style="display: flex; align-items: baseline; gap: 8px; margin-top: 16px; padding-top: 14px; border-top: 1px solid #262c33">
+          <span class="num" style="font-size: 24px; font-weight: 700">1 100</span>
+          <span style="font-size: 12px; color: #5f6973">то, что есть прямо сейчас</span>
+        </div>
+      </div>
+
+      <div style="background: #121417; border: 1px solid #262c33; border-radius: 14px; padding: 20px 22px">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px">
+          <div style="width: 14px; height: 14px; border-radius: 3px; background: #d9a35c"></div>
+          <div style="font-size: 15px; font-weight: 700; color: #d9a35c">Латунь — это достижение</div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: #98a3ad">
+          <div>Первое место в рейтинге</div>
+          <div>Бейдж выполненного челленджа и серия недель</div>
+          <div>Баннер челленджа недели</div>
+          <div>Дочитанная книга в ленте клуба</div>
+        </div>
+        <div style="display: flex; align-items: baseline; gap: 8px; margin-top: 16px; padding-top: 14px; border-top: 1px solid #262c33">
+          <span class="num" style="font-size: 24px; font-weight: 700; color: #d9a35c">1</span>
+          <span style="font-size: 12px; color: #5f6973">то, что заслужено</span>
+        </div>
+      </div>
+
+    </div>
+    <div style="font-size: 13px; color: #5f6973; margin-top: 10px; text-wrap: pretty">Если элемент нельзя однозначно отнести ни к состоянию, ни к достижению — он остаётся хромовым. Латунь не растёт сама.</div>
+  </div>
+
+  <!-- процарапанный штрих -->
+  <div>
+    <div class="lbl" style="margin-bottom: 14px">Процарапанный штрих · берестяная грамота</div>
+    <div style="background: #121417; border: 1px solid #262c33; border-radius: 14px; padding: 24px 26px">
+
+      <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; align-items: end">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 12px">
+          <svg width="112" height="112" viewBox="0 0 96 96"><g fill="none" stroke="#6fc7ee" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><circle cx="38" cy="26" r="9"></circle><path d="M38 35v22"></path><path d="M38 42l-13-5M38 42l14-3"></path><path d="M38 57l-6 22M38 57l12 12-2 8"></path><path d="M18 82h44" opacity=".28"></path><path d="M74 42q7 6 0 14" opacity=".6"></path><path d="M85 36q10 10 0 26" opacity=".3"></path></g></svg>
+          <div style="font-size: 12px; color: #5f6973; text-align: center">чистый вектор<br>96 px</div>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 12px">
+          <svg width="112" height="112" viewBox="0 0 96 96"><g filter="url(#beresta)" fill="none" stroke="#6fc7ee" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><circle cx="38" cy="26" r="9"></circle><path d="M38 35v22"></path><path d="M38 42l-13-5M38 42l14-3"></path><path d="M38 57l-6 22M38 57l12 12-2 8"></path><path d="M18 82h44" opacity=".28"></path><path d="M74 42q7 6 0 14" opacity=".6"></path><path d="M85 36q10 10 0 26" opacity=".3"></path></g></svg>
+          <div style="font-size: 12px; color: #6fc7ee; text-align: center">процарапан<br>96 px</div>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 12px">
+          <svg width="44" height="44" viewBox="0 0 96 96"><g filter="url(#beresta)" fill="none" stroke="#6fc7ee" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><circle cx="38" cy="26" r="9"></circle><path d="M38 35v22"></path><path d="M38 42l-13-5M38 42l14-3"></path><path d="M38 57l-6 22M38 57l12 12-2 8"></path><path d="M18 82h44" opacity=".28"></path><path d="M74 42q7 6 0 14" opacity=".6"></path><path d="M85 36q10 10 0 26" opacity=".3"></path></g></svg>
+          <div style="font-size: 12px; color: #5f6973; text-align: center">в строке<br>44 px</div>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 12px">
+          <svg width="112" height="112" viewBox="0 0 96 96"><g filter="url(#beresta-deep)" fill="none" stroke="#6fc7ee" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><circle cx="38" cy="26" r="9"></circle><path d="M38 35v22"></path><path d="M38 42l-13-5M38 42l14-3"></path><path d="M38 57l-6 22M38 57l12 12-2 8"></path><path d="M18 82h44" opacity=".28"></path><path d="M74 42q7 6 0 14" opacity=".6"></path><path d="M85 36q10 10 0 26" opacity=".3"></path></g></svg>
+          <div style="font-size: 12px; color: #e8695f; text-align: center">перебор<br>штрих рвётся</div>
+        </div>
+      </div>
+
+      <div style="font-size: 13px; color: #98a3ad; margin-top: 22px; padding-top: 18px; border-top: 1px solid #262c33; text-wrap: pretty">Шум смещает контур, как стило смещается по коре: линия ведёт себя неровно, но не рвётся. Частота шума <span class="num" style="color: #e9edf1">0.25</span>, смещение <span class="num" style="color: #e9edf1">2.5</span> при толщине штриха <span class="num" style="color: #e9edf1">4</span>. Ниже <span class="num" style="color: #e9edf1">0.1</span> шум просто двигает фигуру целиком и приём не читается; выше — контур начинает рваться, четвёртый пример показывает границу.</div>
+      <div style="font-size: 13px; color: #5f6973; margin-top: 8px; text-wrap: pretty">Скруглённые концы штрихов оставлены намеренно, вопреки настоящему стилу: на 44&nbsp;px обрубленные концы съедаются и фигура теряет форму. Читаемость важнее буквальности.</div>
+    </div>
+  </div>
+
+  <!-- кириллица -->
+  <div>
+    <div class="lbl" style="margin-bottom: 14px">Кириллица в заголовках</div>
+    <div style="background: #121417; border: 1px solid #262c33; border-radius: 14px; padding: 24px 26px">
+      <svg width="100%" height="128" viewBox="0 0 900 128" style="display: block">
+        <g filter="url(#beresta)" fill="#e9edf1" font-family="Unbounded, system-ui, sans-serif" font-weight="800">
+          <text x="0" y="46" font-size="38" letter-spacing="2">ХРАНИТЕЛЬ БИОМА</text>
+        </g>
+        <g filter="url(#beresta)" fill="#d9a35c" font-family="Unbounded, system-ui, sans-serif" font-weight="600">
+          <text x="0" y="92" font-size="26" letter-spacing="1">ЧЕЛЛЕНДЖ НЕДЕЛИ</text>
+        </g>
+        <g filter="url(#beresta)" stroke="#5f6973" stroke-width="1.4" fill="none">
+          <path d="M0 112h900M0 120h620"></path>
+        </g>
+      </svg>
+      <div style="font-size: 13px; color: #98a3ad; margin-top: 18px; text-wrap: pretty">Шрифт не менялся — процарапан сам знак. Это принципиально: псевдославянская гарнитура из девяностых убила бы всю работу, а неровный контур на обычной кириллице даёт ту же память о бересте, не превращая интерфейс в сувенирную лавку.</div>
+      <div style="font-size: 13px; color: #5f6973; margin-top: 8px">Приём только для крупного кегля — от&nbsp;22&nbsp;px. Текст интерфейса и числа остаются чистыми: их читают, а не рассматривают.</div>
+    </div>
+  </div>
+
+  <!-- где слой не появляется -->
+  <div>
+    <div class="lbl" style="margin-bottom: 14px">Где слоя нет</div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px">
+      <div style="background: #121417; border: 1px solid #262c33; border-radius: 12px; padding: 16px 18px">
+        <div class="num" style="font-size: 22px; font-weight: 700; color: #45d6a2; text-shadow: 0 0 20px rgba(69,214,162,0.4)">10 605</div>
+        <div style="font-size: 12px; color: #5f6973; margin-top: 6px">Числа — никогда. Их сравнивают глазами, дрожащий контур этому мешает.</div>
+      </div>
+      <div style="background: #121417; border: 1px solid #262c33; border-radius: 12px; padding: 16px 18px">
+        <div style="height: 8px; border-radius: 999px; background: #1d2228; overflow: hidden; margin-bottom: 10px"><div style="width: 62%; height: 100%; background: #6fc7ee"></div></div>
+        <div style="font-size: 12px; color: #5f6973">Полосы и обводки — никогда. Это техника, а не образ.</div>
+      </div>
+      <div style="background: #121417; border: 1px solid #262c33; border-radius: 12px; padding: 16px 18px">
+        <div style="font-size: 14px; margin-bottom: 10px">Донна Тартт — «Щегол»</div>
+        <div style="font-size: 12px; color: #5f6973">Текст мельче 22&nbsp;px — никогда. Читаемость раньше настроения.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>
