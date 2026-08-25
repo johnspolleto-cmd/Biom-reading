@@ -1,0 +1,67 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-chitkod}
+      POSTGRES_USER: ${POSTGRES_USER:-chitkod}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-chitkod} -d ${POSTGRES_DB:-chitkod}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  web:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-chitkod}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-chitkod}
+      SECRET_KEY: ${SECRET_KEY:?set SECRET_KEY in .env}
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-http://localhost:8080}
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8000/healthz || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  # Пересчёт числовых челленджей и подведение итогов недели.
+  # Смена челленджа в понедельник от этого сервиса НЕ зависит — она вычисляется запросом.
+  worker:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-chitkod}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-chitkod}
+      SECRET_KEY: ${SECRET_KEY}
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-http://localhost:8080}
+      RUN_MIGRATIONS: "0"
+    command: ["python", "-m", "app.scheduler"]
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      - web
+    ports:
+      - "${HTTP_PORT:-8080}:80"
+      - "${HTTPS_PORT:-8443}:443"
+    environment:
+      CHITKOD_DOMAIN: ${CHITKOD_DOMAIN:-localhost}
+      ACME_EMAIL: ${ACME_EMAIL:-}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  pgdata:
+  caddy_data:
+  caddy_config:

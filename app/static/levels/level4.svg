@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" role="img" aria-label="Колобок">
+  <title>Колобок</title>
+  <rect width="96" height="96" rx="24" fill="#fb923c" fill-opacity="0.18"/>
+  <rect x="3" y="3" width="90" height="90" rx="21" fill="none" stroke="#fb923c" stroke-width="3"/>
+  <text x="48" y="56" font-size="38" text-anchor="middle" dominant-baseline="middle">🥯</text>
+  <text x="48" y="84" font-size="13" text-anchor="middle" fill="#fb923c"
+        font-family="-apple-system, Segoe UI, Roboto, sans-serif" font-weight="700">4</text>
+</svg>

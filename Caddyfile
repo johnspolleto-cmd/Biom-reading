@@ -1,0 +1,26 @@
+{
+	email {$ACME_EMAIL}
+	# На localhost Caddy выпускает локальный самоподписанный сертификат,
+	# на реальном домене — автоматический Let's Encrypt. Ничего настраивать не нужно.
+}
+
+{$CHITKOD_DOMAIN} {
+	encode zstd gzip
+
+	header {
+		X-Content-Type-Options nosniff
+		X-Frame-Options DENY
+		Referrer-Policy same-origin
+		-Server
+	}
+
+	# Персональные ссылки участников не должны попадать в поисковики
+	handle /enter/* {
+		header X-Robots-Tag "noindex, nofollow"
+		reverse_proxy web:8000
+	}
+
+	handle {
+		reverse_proxy web:8000
+	}
+}

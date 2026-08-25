@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Челленджи — {{ app_name }}{% endblock %}
+
+{% block content %}
+<section class="challenges">
+  <h1 class="page__title">Челленджи</h1>
+
+  {% if current %}
+    <div class="card card--current">
+      <div class="card__label">Сейчас · неделя с {{ current_week.strftime('%d.%m.%Y') }}</div>
+      <h2 class="card__title">{{ current.title|typo }}</h2>
+      <p>{{ current.description|typo }}</p>
+      {% if current.winners %}
+        <p class="card__winners">Выполнили: {% for w in current.winners %}{{ w.member_name }}{% if not loop.last %}, {% endif %}{% endfor %}</p>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  {% if upcoming %}
+    <h2 class="section__title">Впереди</h2>
+    <ul class="queue">
+      {% for item in upcoming %}
+        <li><b>{{ item.week_start }}</b> — {{ item.title|typo }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <h2 class="section__title">Архив</h2>
+  {% if archive %}
+    <div class="archive">
+      {% for item in archive %}
+        <article class="card card--archive">
+          <div class="card__label">неделя с {{ item.week_start }}</div>
+          <h3 class="card__title">{{ item.title|typo }}</h3>
+          {% if item.description %}<p>{{ item.description|typo }}</p>{% endif %}
+          {% if item.winners %}
+            <p class="card__winners">🏅 {% for w in item.winners %}{{ w.member_name }}{% if not loop.last %}, {% endif %}{% endfor %}</p>
+          {% else %}
+            <p class="muted">никто не выполнил</p>
+          {% endif %}
+        </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="empty">Архив пуст — всё впереди.</p>
+  {% endif %}
+</section>
+{% endblock %}

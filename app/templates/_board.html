@@ -1,0 +1,15 @@
+{# Таблица целиком. Перерисовывается после каждой записи — строки переезжают с анимацией. #}
+<div class="board" id="board" data-week-start="{{ week.start }}">
+  <div class="board__head">
+    <span>Место</span><span>Участник и книга</span><span>Уровень</span>
+    <span>Всего</span><span>Неделя</span><span>Цитата</span>
+  </div>
+
+  {% if rows %}
+    {% for row in rows %}
+      {% include "_row.html" %}
+    {% endfor %}
+  {% else %}
+    <p class="empty">В клубе пока никого нет. Администратор добавляет участников в админке.</p>
+  {% endif %}
+</div>

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Стена цитат — {{ app_name }}{% endblock %}
+
+{% block content %}
+<section class="wall">
+  <h1 class="page__title">Стена цитат</h1>
+  <p class="page__lead">Что клуб «{{ club_name }}» выписал из книг.</p>
+
+  {% if quotes %}
+    <div class="wall__grid">
+      {% for quote in quotes %}
+        <figure class="card card--quote">
+          <blockquote>{{ quote.text|typo }}</blockquote>
+          <figcaption>
+            <span class="card__book">{{ quote.book_label or 'без книги' }}{% if quote.page %}, с.&nbsp;{{ quote.page }}{% endif %}</span>
+            <span class="card__who">— {{ quote.member.full_name }}, {{ quote.created_at|moment('%d.%m.%Y') }}</span>
+          </figcaption>
+          {% if me and me.id == quote.member_id %}
+            <button class="mini card__del" type="button" data-action="delete-quote"
+                    data-id="{{ quote.id }}" title="Удалить">✕</button>
+          {% endif %}
+        </figure>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="empty">Цитат пока нет. Добавьте первую в своей строке в таблице.</p>
+  {% endif %}
+</section>
+{% endblock %}

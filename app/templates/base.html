@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>{% block title %}{{ app_name }} — {{ app_tagline }}{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+<link rel="icon" href="{{ url_for('static', filename='logo.svg') }}">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="/">
+    <img class="brand__logo" src="{{ url_for('static', filename='logo.svg') }}" alt="">
+    <span class="brand__text">
+      <b>{{ app_name }}</b>
+      <small>{{ app_tagline }}</small>
+    </span>
+  </a>
+  <nav class="tabs">
+    <a href="/" class="tab {% if request.path == '/' %}is-active{% endif %}">Таблица</a>
+    <a href="/quotes" class="tab {% if request.path == '/quotes' %}is-active{% endif %}">Цитаты</a>
+    <a href="/challenges" class="tab {% if request.path == '/challenges' %}is-active{% endif %}">Челленджи</a>
+    {% if me and me.is_admin %}<a href="/admin" class="tab {% if request.path == '/admin' %}is-active{% endif %}">Админка</a>{% endif %}
+  </nav>
+  <div class="who">
+    {% if me %}
+      <span class="who__name" title="{{ me.full_name }}">{{ me.full_name }}</span>
+      <button class="who__out" type="button" data-action="logout">Это не&nbsp;я</button>
+    {% else %}
+      <span class="who__guest">режим чтения</span>
+    {% endif %}
+  </div>
+</header>
+
+<main class="page">
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="footer">
+  <span>«{{ app_name }}» — трекер чтения книжного клуба «{{ club_name }}», Великий&nbsp;Новгород</span>
+</footer>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<div class="celebrate" id="celebrate" hidden>
+  <div class="celebrate__card">
+    <img class="celebrate__avatar" id="celebrate-avatar" src="" alt="">
+    <div class="celebrate__label">Новый уровень</div>
+    <div class="celebrate__level" id="celebrate-level"></div>
+    <div class="celebrate__total" id="celebrate-total"></div>
+    <button class="btn btn--primary" type="button" data-action="close-celebrate">Ура!</button>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

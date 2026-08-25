@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{# --- баннер челленджа недели --------------------------------------------- #}
+<section class="challenge">
+  {% if challenge %}
+    <div class="challenge__label">Челлендж недели · {{ week.start.strftime('%d.%m') }}–{{ week.end.strftime('%d.%m') }}</div>
+    <h2 class="challenge__title">{{ challenge.title|typo }}</h2>
+    {% if challenge.description %}<p class="challenge__text">{{ challenge.description|typo }}</p>{% endif %}
+    <div class="challenge__meta">
+      {% if challenge.is_auto %}
+        <span class="chip">засчитывается автоматически</span>
+      {% else %}
+        <span class="chip">отмечается вручную</span>
+        {% if me %}
+          <button class="btn btn--small" type="button" data-action="claim-challenge"
+                  data-id="{{ challenge.id }}">Я выполнил
+          </button>
+        {% endif %}
+      {% endif %}
+      {% if challenge.winners_count %}
+        <span class="chip chip--win">🏅 выполнили: {{ challenge.winners_count }}</span>
+      {% endif %}
+    </div>
+  {% else %}
+    <div class="challenge__label">Челлендж недели</div>
+    <h2 class="challenge__title">Свободная неделя</h2>
+    <p class="challenge__text">На эту неделю задание не назначено — читаем что хочется.</p>
+  {% endif %}
+</section>
+
+{# --- сводка по клубу ------------------------------------------------------ #}
+<section class="stats">
+  <div class="stat"><b>{{ club.total_pages|number }}</b><span>страниц клубом</span></div>
+  <div class="stat"><b>{{ club.week_pages|number }}</b><span>за эту неделю</span></div>
+  <div class="stat"><b>{{ club.books_finished|number }}</b><span>книг дочитано</span></div>
+  <div class="stat"><b>{{ club.members|number }}</b><span>{{ club.members|plural('участник', 'участника', 'участников') }}</span></div>
+</section>
+
+{# --- таблица -------------------------------------------------------------- #}
+<div class="board__controls">
+  <div class="segmented" role="tablist">
+    <button type="button" class="segmented__btn is-active" data-sort="total">За всё время</button>
+    <button type="button" class="segmented__btn" data-sort="week">За неделю</button>
+  </div>
+</div>
+
+{% include "_board.html" %}
+
+{# --- лента событий -------------------------------------------------------- #}
+<section class="feed">
+  <h3 class="feed__title">Лента клуба</h3>
+  {% if feed %}
+    <ul class="feed__list">
+      {% for event in feed %}
+        {# Формулировки безличные: клуб смешанный, род участника мы не знаем #}
+        <li class="feed__item feed__item--{{ event.type }}">
+          <span>
+            <b>{{ event.member_name }}</b>
+            {% if event.type == 'level_up' %}
+              — новый уровень: «{{ event.payload.level_name }}»
+            {% elif event.type == 'book_finished' %}
+              — книга дочитана: «{{ event.payload.title }}»
+            {% elif event.type == 'challenge_won' %}
+              — челлендж выполнен: «{{ event.payload.title }}»
+            {% elif event.type == 'joined' %}
+              — в клубе
+            {% endif %}
+          </span>
+          <time>{{ event.created_at|moment }}</time>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="empty">Пока тихо. Первая запись всё изменит.</p>
+  {% endif %}
+</section>
+
+{# --- кнопка внесения страниц: касание первое ------------------------------ #}
+{% if me %}
+  <button class="fab" type="button" data-action="open-entry">
+    <span class="fab__plus">+</span><span class="fab__text">страницы</span>
+  </button>
+{% else %}
+  <a class="fab fab--ghost" href="/enter/">Войти по своей ссылке</a>
+{% endif %}
+
+{# --- диалоги -------------------------------------------------------------- #}
+<dialog class="sheet" id="entry-sheet">
+  <form method="dialog" class="sheet__close"><button aria-label="Закрыть">×</button></form>
+  <h3 class="sheet__title">Сколько прочитали?</h3>
+
+  {% if my_books %}
+    <label class="field">
+      <span>Книга</span>
+      <select id="entry-book">
+        {% for book in my_books %}
+          <option value="{{ book.id }}" data-total="{{ book.total_pages or '' }}"
+                  data-format="{{ book.fmt }}">
+            {{ book.label }}
+          </option>
+        {% endfor %}
+        <option value="">— без книги —</option>
+      </select>
+    </label>
+  {% else %}
+    <p class="hint">Книга не выбрана. Можно вносить страницы и без неё, но
+      <button class="linkish" type="button" data-action="edit-book">укажите текущую книгу</button> —
+      так интереснее.</p>
+  {% endif %}
+
+  {# касание второе: пресет сразу сохраняет #}
+  <div class="presets">
+    {% for value in [10, 20, 30, 50] %}
+      <button class="preset" type="button" data-pages="{{ value }}">+{{ value }}</button>
+    {% endfor %}
+  </div>
+
+  <div class="custom">
+    <input type="number" id="entry-pages" inputmode="numeric" min="1" max="10000" placeholder="своё число">
+    <button class="btn btn--primary" type="button" data-action="save-entry">Добавить</button>
+  </div>
+
+  <details class="more">
+    <summary>Электронная книга, дата или комментарий</summary>
+    <label class="field">
+      <span>Прочитано процентов книги</span>
+      <input type="number" id="entry-percent" inputmode="decimal" min="0.1" max="100" step="0.1"
+             placeholder="например, 8">
+      <small class="hint">Переведём в страницы по объёму книги. Если объём не указан, считаем
+        книгу за&nbsp;{{ 300|pages }}.</small>
+    </label>
+    <label class="field">
+      <span>Дата чтения</span>
+      <input type="date" id="entry-date" max="{{ today }}" value="{{ today }}">
+    </label>
+    <label class="field">
+      <span>Комментарий</span>
+      <input type="text" id="entry-note" maxlength="200" placeholder="необязательно">
+    </label>
+  </details>
+
+  {% if my_books %}
+    <button class="btn btn--ghost btn--wide" type="button" data-action="finish-book">
+      Книга дочитана
+    </button>
+  {% endif %}
+
+  {% if my_entries %}
+    <div class="recent">
+      <div class="recent__title">Последние записи</div>
+      <ul class="recent__list">
+        {% for entry in my_entries %}
+          <li data-entry="{{ entry.id }}">
+            <span>{{ entry.entry_date.strftime('%d.%m') }} · {{ entry.pages|pages }}</span>
+            {% if entry.id in editable_entry_ids %}
+              <button class="mini" type="button" data-action="delete-entry" data-id="{{ entry.id }}"
+                      title="Удалить">✕</button>
+            {% else %}
+              <span class="mini mini--wide muted" title="Прошли сутки — правит администратор">🔒</span>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+      <small class="hint">Исправить или удалить свою запись можно в течение суток,
+        дальше — через администратора.</small>
+    </div>
+  {% endif %}
+</dialog>
+
+<dialog class="sheet" id="book-sheet">
+  <form method="dialog" class="sheet__close"><button aria-label="Закрыть">×</button></form>
+  <h3 class="sheet__title">Текущая книга</h3>
+  <label class="field"><span>Автор</span><input type="text" id="book-author" maxlength="160"></label>
+  <label class="field"><span>Название</span><input type="text" id="book-title" maxlength="240"></label>
+  <label class="field"><span>Сколько страниц в книге</span>
+    <input type="number" id="book-total" inputmode="numeric" min="1" max="20000" placeholder="необязательно">
+    <small class="hint">Нужно, чтобы считать проценты электронной книги.</small>
+  </label>
+  <label class="field"><span>Формат</span>
+    <select id="book-format">
+      <option value="paper">бумажная</option>
+      <option value="ebook">электронная</option>
+    </select>
+  </label>
+  <button class="btn btn--primary btn--wide" type="button" data-action="save-book">Сохранить</button>
+</dialog>
+
+<dialog class="sheet" id="quote-sheet">
+  <form method="dialog" class="sheet__close"><button aria-label="Закрыть">×</button></form>
+  <h3 class="sheet__title">Понравившаяся цитата</h3>
+  <label class="field"><span>Текст</span>
+    <textarea id="quote-text" rows="4" maxlength="2000" placeholder="то, что зацепило"></textarea>
+  </label>
+  <label class="field"><span>Книга</span>
+    <select id="quote-book">
+      {% for book in my_books %}<option value="{{ book.id }}">{{ book.label }}</option>{% endfor %}
+      <option value="">— указать вручную —</option>
+    </select>
+  </label>
+  <label class="field" id="quote-book-manual" hidden><span>Автор и название</span>
+    <input type="text" id="quote-book-label" maxlength="200">
+  </label>
+  <label class="field"><span>Страница</span>
+    <input type="number" id="quote-page" inputmode="numeric" min="1" placeholder="необязательно">
+  </label>
+  <button class="btn btn--primary btn--wide" type="button" data-action="save-quote">Добавить на стену</button>
+</dialog>
+
+<dialog class="sheet" id="name-sheet">
+  <form method="dialog" class="sheet__close"><button aria-label="Закрыть">×</button></form>
+  <h3 class="sheet__title">Как вас зовут</h3>
+  <label class="field"><span>ФИО</span>
+    <input type="text" id="name-input" maxlength="160" value="{{ me.full_name if me else '' }}">
+  </label>
+  <button class="btn btn--primary btn--wide" type="button" data-action="save-name">Сохранить</button>
+</dialog>
+
+{% endblock %}

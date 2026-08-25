@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Вход — {{ app_name }}{% endblock %}
+
+{% block content %}
+<section class="enter">
+  {% if not found %}
+    <h1 class="enter__title">Ссылка не подошла</h1>
+    <p class="enter__text">Возможно, её перевыпустили. Попросите новую персональную ссылку
+      у администратора клуба «{{ club_name }}».</p>
+    <a class="btn btn--ghost btn--wide" href="/">Смотреть таблицу</a>
+
+  {% elif not pin_is_set %}
+    <h1 class="enter__title">Здравствуйте, {{ full_name }}!</h1>
+    <p class="enter__text">Придумайте PIN из четырёх цифр — он понадобится, если вы
+      зайдёте с другого устройства. Пароли и почта не нужны.</p>
+    <form class="enter__form" data-form="set-pin" data-token="{{ token }}">
+      <label class="field">
+        <span>Новый PIN</span>
+        <input type="password" id="pin" inputmode="numeric" pattern="[0-9]*" maxlength="4"
+               autocomplete="new-password" required>
+      </label>
+      <label class="field">
+        <span>Повторите PIN</span>
+        <input type="password" id="pin2" inputmode="numeric" pattern="[0-9]*" maxlength="4"
+               autocomplete="new-password" required>
+      </label>
+      <button class="btn btn--primary btn--wide" type="submit">Войти</button>
+    </form>
+
+  {% else %}
+    <h1 class="enter__title">С возвращением, {{ full_name }}</h1>
+    <p class="enter__text">Введите свой PIN.</p>
+    <form class="enter__form" data-form="login" data-token="{{ token }}">
+      <label class="field">
+        <span>PIN</span>
+        <input type="password" id="pin" inputmode="numeric" pattern="[0-9]*" maxlength="4"
+               autocomplete="current-password" required>
+      </label>
+      <button class="btn btn--primary btn--wide" type="submit">Войти</button>
+    </form>
+    <p class="enter__hint">Забыли PIN — администратор перевыпустит ссылку.</p>
+  {% endif %}
+</section>
+{% endblock %}

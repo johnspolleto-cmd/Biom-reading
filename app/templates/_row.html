@@ -1,0 +1,97 @@
+{# Одна строка таблицы = один участник. Ядро продукта. #}
+<article class="row {% if me and me.id == row.member_id %}row--mine{% endif %}"
+         data-row-id="{{ row.member_id }}" data-rank="{{ row.rank }}"
+         data-total="{{ row.total_pages }}" data-week="{{ row.week_pages }}"
+         style="--level-color: {{ row.level.color }}">
+
+  <div class="row__rank" title="Место в рейтинге">
+    <span class="rank__num">{{ row.rank }}</span>
+  </div>
+
+  <div class="row__who">
+    <img class="row__avatar" src="{{ row.level.avatar }}" alt="{{ row.level.name }}" loading="lazy">
+    <div class="row__names">
+      <div class="row__name">
+        {{ row.full_name }}
+        {% if me and me.id == row.member_id %}
+          <button class="mini" type="button" data-action="edit-name" title="Изменить ФИО">✎</button>
+        {% endif %}
+      </div>
+      <div class="row__book">
+        {% if row.current_book %}
+          {% if row.current_book.author %}{{ row.current_book.author }}&nbsp;— {% endif %}«{{ row.current_book.title }}»
+        {% else %}
+          <span class="muted">книга не выбрана</span>
+        {% endif %}
+        {% if me and me.id == row.member_id %}
+          <button class="mini" type="button" data-action="edit-book" title="Текущая книга">✎</button>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="row__level">
+    <div class="level__name">{{ row.level.name }}</div>
+    <div class="level__bar" role="progressbar" aria-valuenow="{{ row.level.progress_pct }}"
+         aria-valuemin="0" aria-valuemax="100">
+      <span style="width: {{ row.level.progress_pct }}%"></span>
+    </div>
+    <div class="level__hint">
+      {% if row.level.next_name %}
+        до&nbsp;«{{ row.level.next_name }}» {{ row.level.pages_to_next|pages }}
+      {% else %}
+        высший уровень клуба
+      {% endif %}
+    </div>
+  </div>
+
+  {# На телефоне «всего» и «неделя» стоят одной строкой, на десктопе — отдельными
+     колонками таблицы, поэтому обёртка там растворяется через display: contents #}
+  <div class="row__stats">
+  <div class="row__total">
+    <b class="total__num">{{ row.total_pages|number }}</b>
+    <span class="total__word">{{ row.total_pages|pages_word }}</span>
+    {% if row.books_finished %}
+      <span class="total__books" title="Дочитано книг">📚 {{ row.books_finished }}</span>
+    {% endif %}
+  </div>
+
+  <div class="row__week">
+    <span class="dyn dyn--{{ row.dynamics.tone }}">{{ row.dynamics.label }}</span>
+    <span class="week__abs">{{ row.week_pages|pages }} за&nbsp;неделю</span>
+    {% if row.streak_weeks > 1 %}
+      <span class="streak" title="Недель подряд без пропуска">🔥 {{ row.streak_weeks }}</span>
+    {% endif %}
+    {% for badge in row.badges if badge.is_current %}
+      <span class="badge" title="{{ badge.title }}">🏅</span>
+    {% endfor %}
+  </div>
+  </div>
+
+  <div class="row__quote">
+    {% if row.last_quote %}
+      <blockquote class="quote">
+        <p>{{ row.last_quote.text|typo }}</p>
+        <cite>{{ row.last_quote.book or 'без книги' }}{% if row.last_quote.page %}, с.&nbsp;{{ row.last_quote.page }}{% endif %}</cite>
+      </blockquote>
+      {% if row.quotes_count > 1 %}
+        <button class="mini mini--wide" type="button" data-action="more-quotes" data-member="{{ row.member_id }}">
+          ещё {{ row.quotes_count - 1 }}
+        </button>
+        <div class="quote__more" id="quotes-{{ row.member_id }}" hidden>
+          {% for q in row.quotes[1:] %}
+            <blockquote class="quote">
+              <p>{{ q.text|typo }}</p>
+              <cite>{{ q.book or 'без книги' }}{% if q.page %}, с.&nbsp;{{ q.page }}{% endif %}</cite>
+            </blockquote>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% else %}
+      <span class="muted">цитат пока нет</span>
+    {% endif %}
+    {% if me and me.id == row.member_id %}
+      <button class="mini mini--wide" type="button" data-action="add-quote">+ цитата</button>
+    {% endif %}
+  </div>
+</article>

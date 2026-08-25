@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Админка — {{ app_name }}{% endblock %}
+
+{% block content %}
+<section class="admin">
+  <h1 class="page__title">Админка</h1>
+
+  <div class="admin__block">
+    <h2 class="section__title">Участники</h2>
+    <form class="admin__add" data-form="add-member">
+      <input type="text" id="new-member-name" placeholder="ФИО нового участника" maxlength="160" required>
+      <button class="btn btn--primary" type="submit">Добавить и выдать ссылку</button>
+    </form>
+    <div id="admin-members" class="admin__list">загружаю…</div>
+  </div>
+
+  <div class="admin__block">
+    <h2 class="section__title">Записи на проверку</h2>
+    <p class="hint">Сюда попадают записи больше {{ 300|pages }} за раз.</p>
+    <div id="admin-flagged" class="admin__list">загружаю…</div>
+  </div>
+
+  <div class="admin__block">
+    <h2 class="section__title">Челленджи</h2>
+    <form class="admin__challenge" data-form="add-challenge">
+      <label class="field"><span>Неделя (любая дата внутри неё)</span>
+        <input type="date" id="ch-week" value="{{ current_week }}" required>
+      </label>
+      <label class="field"><span>Название</span>
+        <input type="text" id="ch-title" maxlength="200" required placeholder="Например: 300 страниц за неделю">
+      </label>
+      <label class="field"><span>Тип</span>
+        <select id="ch-type">
+          {% for key, label in type_labels.items() %}
+            <option value="{{ key }}">{{ label }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label class="field"><span>Цель (N страниц или N дней)</span>
+        <input type="number" id="ch-target" min="1" placeholder="для числовых типов">
+      </label>
+      <label class="field"><span>Жанр</span>
+        <input type="text" id="ch-genre" maxlength="80" placeholder="для типа «жанр»">
+      </label>
+      <label class="field"><span>Описание</span>
+        <textarea id="ch-desc" rows="2" maxlength="500"></textarea>
+      </label>
+      <button class="btn btn--primary btn--wide" type="submit">Поставить в очередь</button>
+    </form>
+    <div id="admin-pending" class="admin__list"></div>
+    <div id="admin-challenges" class="admin__list">загружаю…</div>
+  </div>
+
+  <div class="admin__block">
+    <h2 class="section__title">Данные</h2>
+    <a class="btn btn--ghost" href="/api/v1/admin/export.zip">Выгрузить всё в CSV</a>
+    <button class="btn btn--ghost" type="button" data-action="recompute">Пересчитать челлендж недели</button>
+    <p class="hint">Бэкап базы — командой <code>./scripts/backup.sh</code> на сервере.</p>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+{% endblock %}
