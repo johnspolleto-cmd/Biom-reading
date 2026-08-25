@@ -195,7 +195,7 @@ def seed(reset: bool):
         if order < 5:
             db.session.add(
                 Quote(
-                    member_id=member.id, book_id=book.id, book_label=f"{author} — {title}",
+                    member_id=member.id, book_id=book.id, book_label=book.label,
                     text=SEED_QUOTES[order], page=rnd.randint(24, 300),
                     created_at=_stamp(w1 + timedelta(days=order)),
                     updated_at=_stamp(w1 + timedelta(days=order)),
