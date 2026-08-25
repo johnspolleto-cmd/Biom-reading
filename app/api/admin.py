@@ -13,7 +13,7 @@ from flask import Response, jsonify, request
 from .. import auth
 from ..auth import current_member, require_admin
 from ..domain import challenges as ch
-from ..domain import events
+from ..domain import club, events
 from ..domain.errors import DomainError, NotFound
 from ..domain.time_utils import current_week_start, msk_today, week_start
 from ..extensions import db
@@ -46,6 +46,7 @@ def admin_members():
                     "is_active": m.is_active,
                     "pin_is_set": m.pin_is_set,
                     "joined_at": m.joined_at.isoformat(),
+                    "self_joined": m.self_joined,
                 }
                 for m in members
             ]
@@ -135,6 +136,42 @@ def admin_delete_member(member_id: int):
     db.session.delete(member)
     db.session.commit()
     return jsonify({"ok": True})
+
+
+# --- код клуба -------------------------------------------------------------------
+
+@api_bp.get("/admin/join-code")
+@require_admin
+def admin_join_code():
+    """Общая ссылка для вступления. Показывается сколько угодно раз, в отличие от личных."""
+    settings = club.get_settings(db.session)
+    db.session.commit()
+    return jsonify(
+        {
+            "code": settings.join_code,
+            "link": club.join_link(db.session),
+            "enabled": settings.join_enabled,
+        }
+    )
+
+
+@api_bp.post("/admin/join-code")
+@require_admin
+def admin_rotate_join_code():
+    """Перевыпустить код: старая ссылка перестаёт работать, участники остаются."""
+    club.rotate_code(db.session)
+    db.session.commit()
+    return jsonify({"code": club.get_settings(db.session).join_code,
+                    "link": club.join_link(db.session)})
+
+
+@api_bp.patch("/admin/join-code")
+@require_admin
+def admin_toggle_join():
+    enabled = str(body().get("enabled", "1")).lower() in {"1", "true", "yes", "on"}
+    settings = club.set_enabled(db.session, enabled)
+    db.session.commit()
+    return jsonify({"enabled": settings.join_enabled})
 
 
 # --- модерация журнала -----------------------------------------------------------

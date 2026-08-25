@@ -68,6 +68,24 @@
       ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch])
     );
 
+  async function loadJoin() {
+    const box = document.getElementById("admin-join");
+    if (!box) return;
+    const data = await api("GET", "/admin/join-code");
+    box.innerHTML = `
+      <div class="admin__item">
+        <span>${data.enabled ? "Набор открыт" : "Набор закрыт"} · код
+          <code>${escape(data.code)}</code><br><code>${escape(data.link)}</code></span>
+        <span class="admin__actions">
+          <button class="btn btn--small" data-admin="join-copy"
+                  data-link="${escape(data.link)}">Скопировать</button>
+          <button class="btn btn--small" data-admin="join-toggle"
+                  data-enabled="${data.enabled ? 0 : 1}">${data.enabled ? "Закрыть набор" : "Открыть набор"}</button>
+          <button class="btn btn--small" data-admin="join-rotate">Сменить код</button>
+        </span>
+      </div>`;
+  }
+
   async function loadMembers() {
     const box = document.getElementById("admin-members");
     const data = await api("GET", "/admin/members");
@@ -76,7 +94,7 @@
         (m) => `
       <div class="admin__item">
         <span>${escape(m.full_name)}${m.role === "admin" ? " · админ" : ""}
-          ${m.is_active ? "" : " · выключен"}${m.pin_is_set ? "" : " · PIN не задан"}</span>
+          ${m.is_active ? "" : " · выключен"}${m.pin_is_set ? "" : " · PIN не задан"}${m.self_joined ? " · сам" : ""}</span>
         <span class="admin__actions">
           <button class="btn btn--small" data-admin="link" data-id="${m.id}">Выдать ссылку</button>
           <button class="btn btn--small" data-admin="toggle" data-id="${m.id}"
@@ -146,7 +164,7 @@
   }
 
   async function refresh() {
-    await Promise.all([loadMembers(), loadFlagged(), loadChallenges()]);
+    await Promise.all([loadJoin(), loadMembers(), loadFlagged(), loadChallenges()]);
   }
 
   document.addEventListener("submit", async (event) => {
@@ -200,6 +218,23 @@
               "ok"
             );
             await loadMembers();
+            break;
+          }
+          case "join-copy": {
+            const ok = await copyToClipboard(button.dataset.link);
+            note(ok ? "Ссылка скопирована" : "Скопируйте вручную: " + button.dataset.link, "ok");
+            break;
+          }
+          case "join-toggle":
+            await api("PATCH", "/admin/join-code", { enabled: button.dataset.enabled });
+            await loadJoin();
+            break;
+          case "join-rotate": {
+            if (!confirm("Сменить код клуба? Старая ссылка перестанет работать.")) return;
+            const fresh = await api("POST", "/admin/join-code");
+            const copied = await copyToClipboard(fresh.link);
+            note("Новая ссылка: " + fresh.link + (copied ? " (скопирована)" : " (скопируйте вручную)"), "ok");
+            await loadJoin();
             break;
           }
           case "toggle":

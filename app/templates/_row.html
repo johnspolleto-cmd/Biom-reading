@@ -73,6 +73,14 @@
       <blockquote class="quote">
         <p>{{ row.last_quote.text|typo }}</p>
         <cite>{{ row.last_quote.book or 'без книги' }}{% if row.last_quote.page %}, с.&nbsp;{{ row.last_quote.page }}{% endif %}</cite>
+        {% if me and me.id == row.member_id %}
+          <span class="quote__tools">
+            <button class="mini" type="button" data-action="edit-quote"
+                    data-id="{{ row.last_quote.id }}" title="Изменить цитату">✎</button>
+            <button class="mini" type="button" data-action="delete-quote"
+                    data-id="{{ row.last_quote.id }}" title="Удалить цитату">✕</button>
+          </span>
+        {% endif %}
       </blockquote>
       {% if row.quotes_count > 1 %}
         <button class="mini mini--wide" type="button" data-action="more-quotes" data-member="{{ row.member_id }}">
@@ -83,6 +91,14 @@
             <blockquote class="quote">
               <p>{{ q.text|typo }}</p>
               <cite>{{ q.book or 'без книги' }}{% if q.page %}, с.&nbsp;{{ q.page }}{% endif %}</cite>
+              {% if me and me.id == row.member_id %}
+                <span class="quote__tools">
+                  <button class="mini" type="button" data-action="edit-quote"
+                          data-id="{{ q.id }}" title="Изменить цитату">✎</button>
+                  <button class="mini" type="button" data-action="delete-quote"
+                          data-id="{{ q.id }}" title="Удалить цитату">✕</button>
+                </span>
+              {% endif %}
             </blockquote>
           {% endfor %}
         </div>

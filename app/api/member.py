@@ -249,6 +249,55 @@ def create_quote():
     return jsonify({"quote": quote.to_dict()}), 201
 
 
+@api_bp.patch("/quotes/<int:quote_id>")
+@require_member
+def patch_quote(quote_id: int):
+    """Свою цитату можно править сколько угодно: это не результат, а находка."""
+    quote = db.session.get(Quote, quote_id)
+    if quote is None:
+        raise NotFound("Цитата не найдена")
+    assert_owner(quote.member_id)
+    data = body()
+
+    if "text" in data:
+        text = str(data["text"]).strip()
+        if not text:
+            raise DomainError("Цитата не может быть пустой", code="text_required")
+        if len(text) > 2000:
+            raise DomainError("Цитата длиннее 2000 знаков — сократите", code="text_too_long")
+        quote.text = text
+
+    if "page" in data:
+        quote.page = as_int(data["page"], "страница", required=False)
+
+    if "book_id" in data:
+        book_id = as_int(data["book_id"], "книга", required=False)
+        if book_id:
+            book = db.session.get(Book, book_id)
+            if book is None or book.member_id != quote.member_id:
+                raise NotFound("Книга не найдена")
+            quote.book_id = book.id
+            quote.book_label = book.label
+        else:
+            quote.book_id = None
+            quote.book_label = str(data.get("book_label", quote.book_label)).strip()
+    elif "book_label" in data:
+        quote.book_label = str(data["book_label"]).strip()
+
+    db.session.commit()
+    return jsonify({"quote": quote.to_dict()})
+
+
+@api_bp.get("/quotes/<int:quote_id>")
+@require_member
+def get_quote(quote_id: int):
+    quote = db.session.get(Quote, quote_id)
+    if quote is None:
+        raise NotFound("Цитата не найдена")
+    assert_owner(quote.member_id)
+    return jsonify({"quote": quote.to_dict()})
+
+
 @api_bp.delete("/quotes/<int:quote_id>")
 @require_member
 def remove_quote(quote_id: int):

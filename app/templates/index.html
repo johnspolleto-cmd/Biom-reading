@@ -83,7 +83,7 @@
     <span class="fab__plus">+</span><span class="fab__text">страницы</span>
   </button>
 {% else %}
-  <a class="fab fab--ghost" href="/enter/">Войти по своей ссылке</a>
+  <a class="fab" href="/join/">Вступить в клуб</a>
 {% endif %}
 
 {# --- диалоги -------------------------------------------------------------- #}
@@ -187,26 +187,7 @@
   <button class="btn btn--primary btn--wide" type="button" data-action="save-book">Сохранить</button>
 </dialog>
 
-<dialog class="sheet" id="quote-sheet">
-  <form method="dialog" class="sheet__close"><button aria-label="Закрыть">×</button></form>
-  <h3 class="sheet__title">Понравившаяся цитата</h3>
-  <label class="field"><span>Текст</span>
-    <textarea id="quote-text" rows="4" maxlength="2000" placeholder="то, что зацепило"></textarea>
-  </label>
-  <label class="field"><span>Книга</span>
-    <select id="quote-book">
-      {% for book in my_books %}<option value="{{ book.id }}">{{ book.label }}</option>{% endfor %}
-      <option value="">— указать вручную —</option>
-    </select>
-  </label>
-  <label class="field" id="quote-book-manual" hidden><span>Автор и название</span>
-    <input type="text" id="quote-book-label" maxlength="200">
-  </label>
-  <label class="field"><span>Страница</span>
-    <input type="number" id="quote-page" inputmode="numeric" min="1" placeholder="необязательно">
-  </label>
-  <button class="btn btn--primary btn--wide" type="button" data-action="save-quote">Добавить на стену</button>
-</dialog>
+{% include "_quote_sheet.html" %}
 
 <dialog class="sheet" id="name-sheet">
   <form method="dialog" class="sheet__close"><button aria-label="Закрыть">×</button></form>

@@ -49,6 +49,35 @@
     return data;
   }
 
+  // Тот же запасной путь, что и в админке: на HTTP и в части версий Safari
+  // navigator.clipboard просто отсутствует.
+  async function copyToClipboard(text) {
+    if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch (_) {
+        // ниже запасной способ
+      }
+    }
+    const area = document.createElement("textarea");
+    area.value = text;
+    area.setAttribute("readonly", "");
+    area.style.position = "fixed";
+    area.style.left = "-9999px";
+    document.body.appendChild(area);
+    area.focus();
+    area.select();
+    area.setSelectionRange(0, area.value.length);
+    try {
+      return document.execCommand("copy");
+    } catch (_) {
+      return false;
+    } finally {
+      area.remove();
+    }
+  }
+
   const $ = (selector, root) => (root || document).querySelector(selector);
   const value = (id) => {
     const node = document.getElementById(id);
@@ -163,6 +192,41 @@
     return "страниц";
   }
 
+  // --- цитаты: одна панель на добавление и на правку -------------------------
+
+  let editingQuoteId = null;
+
+  function openQuoteSheet(quote) {
+    const sheet = document.getElementById("quote-sheet");
+    if (!sheet) return;
+    editingQuoteId = quote ? quote.id : null;
+
+    const title = document.getElementById("quote-sheet-title");
+    if (title) title.textContent = quote ? "Изменить цитату" : "Понравившаяся цитата";
+
+    document.getElementById("quote-text").value = quote ? quote.text : "";
+    const page = document.getElementById("quote-page");
+    if (page) page.value = quote && quote.page ? quote.page : "";
+
+    const bookSelect = document.getElementById("quote-book");
+    if (bookSelect) {
+      bookSelect.value = quote && quote.book_id ? String(quote.book_id) : bookSelect.value;
+      if (quote && !quote.book_id) bookSelect.value = "";
+    }
+    const manualBox = document.getElementById("quote-book-manual");
+    const manual = document.getElementById("quote-book-label");
+    if (manual) manual.value = quote && !quote.book_id ? quote.book || "" : "";
+    if (manualBox) manualBox.hidden = Boolean(bookSelect && bookSelect.value);
+
+    sheet.showModal();
+  }
+
+  // На стене цитат перерисовывать нечего — проще перезагрузить страницу
+  async function afterQuoteChange() {
+    if (document.getElementById("board")) await refreshBoard();
+    else location.reload();
+  }
+
   const actions = {
     "open-entry": () => document.getElementById("entry-sheet").showModal(),
 
@@ -222,7 +286,12 @@
     "add-quote": () => {
       const sheet = document.getElementById("entry-sheet");
       if (sheet && sheet.open) sheet.close();
-      document.getElementById("quote-sheet").showModal();
+      openQuoteSheet(null);
+    },
+
+    "edit-quote": async (button) => {
+      const data = await api("GET", "/quotes/" + button.dataset.id);
+      openQuoteSheet(data.quote);
     },
 
     "save-quote": async () => {
@@ -232,24 +301,42 @@
         return;
       }
       const bookSelect = document.getElementById("quote-book");
-      await api("POST", "/quotes", {
+      const payload = {
         text,
         book_id: bookSelect && bookSelect.value ? Number(bookSelect.value) : null,
         book_label: value("quote-book-label"),
         page: numberOrNull("quote-page"),
-      });
+      };
+
+      if (editingQuoteId) {
+        await api("PATCH", "/quotes/" + editingQuoteId, payload);
+        toast("Цитата изменена", "ok");
+      } else {
+        await api("POST", "/quotes", payload);
+        toast("Цитата на стене", "ok");
+      }
+
       document.getElementById("quote-sheet").close();
       document.getElementById("quote-text").value = "";
-      toast("Цитата на стене", "ok");
-      await refreshBoard();
+      editingQuoteId = null;
+      await afterQuoteChange();
     },
 
     "delete-quote": async (button) => {
       if (!confirm("Удалить цитату?")) return;
       await api("DELETE", "/quotes/" + button.dataset.id);
+      toast("Цитата удалена", "ok");
+      // На стене цитат карточку убираем на месте, в таблице перерисовываем строку
       const card = button.closest(".card");
       if (card) card.remove();
-      toast("Цитата удалена", "ok");
+      else await refreshBoard();
+    },
+
+    "copy-join-link": async (button) => {
+      const link = document.getElementById("join-link");
+      const ok = await copyToClipboard(link ? link.textContent.trim() : "");
+      toast(ok ? "Ссылка скопирована" : "Скопируйте ссылку вручную", ok ? "ok" : "info");
+      if (ok) button.textContent = "Скопировано";
     },
 
     "edit-name": () => document.getElementById("name-sheet").showModal(),
@@ -336,6 +423,30 @@
     const form = event.target.closest("[data-form]");
     if (!form) return;
     const kind = form.dataset.form;
+
+    if (kind === "join") {
+      event.preventDefault();
+      const codeField = document.getElementById("join-code");
+      try {
+        const data = await api("POST", "/join", {
+          code: (codeField ? codeField.value : form.dataset.code || "").trim().toUpperCase(),
+          full_name: value("join-name"),
+          pin: value("join-pin"),
+          pin_repeat: value("join-pin2"),
+        });
+        document.getElementById("join-form-box").hidden = true;
+        const done = document.getElementById("join-done");
+        document.getElementById("join-link").textContent = data.link;
+        done.hidden = false;
+        // Ссылка показывается один раз — сразу кладём её в буфер обмена
+        await copyToClipboard(data.link);
+        window.scrollTo(0, 0);
+      } catch (err) {
+        toast(err.message, "error");
+      }
+      return;
+    }
+
     if (kind !== "login" && kind !== "set-pin") return;
 
     event.preventDefault();

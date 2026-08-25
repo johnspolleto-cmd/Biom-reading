@@ -56,6 +56,20 @@ class Level(db.Model):
         }
 
 
+class ClubSettings(TimestampMixin, db.Model):
+    """Настройки клуба. Всегда ровно одна строка (id = 1).
+
+    join_code хранится открытым текстом намеренно: это не персональный секрет,
+    а общий код приглашения, который админ показывает в клубном чате снова и снова.
+    """
+
+    __tablename__ = "club_settings"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    join_code: Mapped[str] = mapped_column(sa.String(32), nullable=False)
+    join_enabled: Mapped[bool] = mapped_column(sa.Boolean, nullable=False, default=True)
+
+
 class Member(TimestampMixin, db.Model):
     __tablename__ = "members"
 
@@ -76,6 +90,8 @@ class Member(TimestampMixin, db.Model):
     auth_version: Mapped[int] = mapped_column(sa.Integer, nullable=False, default=1)
 
     joined_at: Mapped[date] = mapped_column(sa.Date, nullable=False, default=date.today)
+    # Записался сам по коду клуба, а не заведён администратором
+    self_joined: Mapped[bool] = mapped_column(sa.Boolean, nullable=False, default=False)
 
     books: Mapped[list["Book"]] = relationship(back_populates="member", cascade="all, delete-orphan")
     # foreign_keys обязателен: у reading_entries два ключа на members —

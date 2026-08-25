@@ -1,0 +1,21 @@
+{# Панель цитаты: одна и та же для добавления и правки, на главной и на стене цитат. #}
+<dialog class="sheet" id="quote-sheet">
+  <form method="dialog" class="sheet__close"><button aria-label="Закрыть">×</button></form>
+  <h3 class="sheet__title" id="quote-sheet-title">Понравившаяся цитата</h3>
+  <label class="field"><span>Текст</span>
+    <textarea id="quote-text" rows="4" maxlength="2000" placeholder="то, что зацепило"></textarea>
+  </label>
+  <label class="field"><span>Книга</span>
+    <select id="quote-book">
+      {% for book in my_books %}<option value="{{ book.id }}">{{ book.label }}</option>{% endfor %}
+      <option value="">— указать вручную —</option>
+    </select>
+  </label>
+  <label class="field" id="quote-book-manual" hidden><span>Автор и название</span>
+    <input type="text" id="quote-book-label" maxlength="200">
+  </label>
+  <label class="field"><span>Страница</span>
+    <input type="number" id="quote-page" inputmode="numeric" min="1" placeholder="необязательно">
+  </label>
+  <button class="btn btn--primary btn--wide" type="button" data-action="save-quote">Сохранить</button>
+</dialog>

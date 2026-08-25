@@ -12,7 +12,7 @@ from flask import Blueprint, current_app, render_template, request
 
 from .auth import current_member, find_member_by_token
 from .domain import challenges as ch
-from .domain import events, leaderboard
+from .domain import club, events, leaderboard
 from .domain.levels import load_levels
 from .domain.time_utils import as_utc, current_week_start, msk_today, week_range
 from .extensions import db
@@ -120,6 +120,20 @@ def enter(token: str):
         found=member is not None,
         full_name=member.full_name if member else None,
         pin_is_set=member.pin_is_set if member else False,
+    )
+
+
+@views_bp.get("/join/", defaults={"code": ""})
+@views_bp.get("/join/<code>")
+def join_page(code: str):
+    """Вступление по общему коду клуба — без участия администратора."""
+    settings = club.get_settings(db.session)
+    db.session.commit()
+    return render_template(
+        "join.html",
+        code=code,
+        join_enabled=settings.join_enabled,
+        code_ok=bool(code) and club.code_matches(db.session, code),
     )
 
 

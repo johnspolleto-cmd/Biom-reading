@@ -209,3 +209,100 @@ def test_multiple_quotes_last_one_shown(client, make_member):
     row = client.get(f"/api/v1/members/{actor.id}").get_json()
     assert row["quotes_count"] == 3
     assert row["last_quote"]["text"] == "Цитата 2"
+
+
+def test_own_quote_can_be_edited(client, make_member, make_book):
+    actor = make_member("Правящий цитату")
+    book = make_book(actor.id, "Первая книга")
+    created = client.post(
+        "/api/v1/quotes",
+        json={"text": "Первый вариант", "book_id": book.id, "page": 10},
+        headers=actor.headers,
+    )
+    quote_id = created.get_json()["quote"]["id"]
+
+    patched = client.patch(
+        f"/api/v1/quotes/{quote_id}",
+        json={"text": "Исправленный вариант", "page": 42},
+        headers=actor.headers,
+    )
+    assert patched.status_code == 200
+    assert patched.get_json()["quote"]["text"] == "Исправленный вариант"
+    assert patched.get_json()["quote"]["page"] == 42
+
+    wall = client.get("/api/v1/quotes").get_json()["quotes"]
+    assert wall[0]["text"] == "Исправленный вариант"
+
+
+def test_quote_book_can_be_changed_and_cleared(client, make_member, make_book):
+    actor = make_member("Меняющий книгу")
+    first = make_book(actor.id, "Была эта")
+    second = make_book(actor.id, "Стала эта")
+    quote_id = client.post(
+        "/api/v1/quotes", json={"text": "Цитата", "book_id": first.id}, headers=actor.headers
+    ).get_json()["quote"]["id"]
+
+    moved = client.patch(
+        f"/api/v1/quotes/{quote_id}", json={"book_id": second.id}, headers=actor.headers
+    )
+    assert moved.get_json()["quote"]["book"] == "Автор — «Стала эта»"
+
+    freed = client.patch(
+        f"/api/v1/quotes/{quote_id}",
+        json={"book_id": None, "book_label": "Книга вручную"},
+        headers=actor.headers,
+    )
+    assert freed.get_json()["quote"]["book_id"] is None
+    assert freed.get_json()["quote"]["book"] == "Книга вручную"
+
+
+def test_own_quote_can_be_deleted(client, make_member):
+    actor = make_member("Удаляющий")
+    quote_id = client.post(
+        "/api/v1/quotes", json={"text": "Ошибся", "book_label": "Книга"}, headers=actor.headers
+    ).get_json()["quote"]["id"]
+
+    assert client.delete(f"/api/v1/quotes/{quote_id}", headers=actor.headers).status_code == 200
+    assert client.get("/api/v1/quotes").get_json()["quotes"] == []
+    assert client.get(f"/api/v1/members/{actor.id}").get_json()["last_quote"] is None
+
+
+def test_foreign_quote_is_untouchable(client, make_member):
+    victim = make_member("Автор цитаты")
+    attacker = make_member("Чужой")
+    quote_id = client.post(
+        "/api/v1/quotes", json={"text": "Моё", "book_label": "Книга"}, headers=victim.headers
+    ).get_json()["quote"]["id"]
+
+    assert client.patch(
+        f"/api/v1/quotes/{quote_id}", json={"text": "Взломано"}, headers=attacker.headers
+    ).status_code == 403
+    assert client.delete(f"/api/v1/quotes/{quote_id}", headers=attacker.headers).status_code == 403
+    assert client.get(f"/api/v1/quotes/{quote_id}", headers=attacker.headers).status_code == 403
+    assert client.get("/api/v1/quotes").get_json()["quotes"][0]["text"] == "Моё"
+
+
+def test_empty_quote_text_rejected_on_edit(client, make_member):
+    actor = make_member("Стирающий текст")
+    quote_id = client.post(
+        "/api/v1/quotes", json={"text": "Есть текст", "book_label": "Книга"},
+        headers=actor.headers
+    ).get_json()["quote"]["id"]
+
+    response = client.patch(
+        f"/api/v1/quotes/{quote_id}", json={"text": "   "}, headers=actor.headers
+    )
+    assert response.status_code == 400
+    assert response.get_json()["error"]["code"] == "text_required"
+
+
+def test_quote_controls_render_in_own_row(client, make_member):
+    actor = make_member("Виден инструмент")
+    client.post("/api/v1/quotes", json={"text": "Моя цитата", "book_label": "Книга"},
+                headers=actor.headers)
+    login = client.post("/api/v1/auth/login", json={"token": actor.raw_token, "pin": "2481"})
+    assert login.status_code == 200
+
+    body = client.get("/board").get_data(as_text=True)
+    assert 'data-action="edit-quote"' in body
+    assert 'data-action="delete-quote"' in body

@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
-from flask import jsonify, make_response
+from flask import current_app, jsonify, make_response
 
 from .. import auth
+from ..domain import club
 from ..domain.errors import DomainError, Unauthorized
 from ..extensions import db
 from . import api_bp, body
@@ -74,6 +75,52 @@ def login():
     return _login_response(member)
 
 
+@api_bp.get("/join/status")
+def join_status():
+    """Можно ли сейчас вступить по этому коду — до того, как человек заполнит форму."""
+    from flask import request
+
+    settings = club.get_settings(db.session)
+    db.session.commit()
+    code = request.args.get("code", "")
+    return jsonify(
+        {
+            "join_enabled": settings.join_enabled,
+            "code_ok": club.code_matches(db.session, code) if code else False,
+            "club_name": current_app.config["CLUB_NAME"],
+        }
+    )
+
+
+@api_bp.post("/join")
+def join():
+    """Вступление по общему коду клуба: человек добавляет себя сам."""
+    data = body()
+    club.check_code(db.session, str(data.get("code", "")))
+
+    name = club.normalize_name(str(data.get("full_name", "")))
+    if club.name_taken(db.session, name) and not data.get("confirm_duplicate"):
+        raise DomainError(
+            f"Участник с именем «{name}» уже есть. Если это не вы — добавьте отчество "
+            "или инициал. Если вы просто потеряли доступ, попросите администратора "
+            "перевыпустить вашу ссылку.",
+            code="name_taken",
+        )
+
+    pin = str(data.get("pin", ""))
+    if pin != str(data.get("pin_repeat", pin)):
+        raise DomainError("PIN и его повтор не совпали", code="pin_mismatch")
+    auth.validate_pin_format(pin)
+
+    raw, prefix, digest = auth.issue_token()
+    member = club.create_self_joined_member(db.session, name, prefix, digest)
+    auth.set_pin(member, pin)
+    db.session.commit()
+
+    # Личная ссылка нужна, чтобы зайти с другого устройства, когда cookie кончится
+    return _login_response(member, {"link": auth.member_link(raw)})
+
+
 @api_bp.post("/auth/logout")
 def logout():
     """«Это не я / выйти» — cookie стирается."""
@@ -81,7 +128,7 @@ def logout():
     return auth.clear_session_cookies(response)
 
 
-def _login_response(member):
+def _login_response(member, extra: dict | None = None):
     session_token, csrf = auth.make_session_token(member)
     payload = {
         "member": _me_payload(member),
@@ -89,5 +136,6 @@ def _login_response(member):
         "session_token": session_token,
         "csrf_token": csrf,
     }
+    payload.update(extra or {})
     response = make_response(jsonify(payload))
     return auth.apply_session_cookies(response, session_token, csrf)

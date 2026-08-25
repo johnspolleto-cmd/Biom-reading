@@ -16,8 +16,12 @@
             <span class="card__who">— {{ quote.member.full_name }}, {{ quote.created_at|moment('%d.%m.%Y') }}</span>
           </figcaption>
           {% if me and me.id == quote.member_id %}
-            <button class="mini card__del" type="button" data-action="delete-quote"
-                    data-id="{{ quote.id }}" title="Удалить">✕</button>
+            <span class="card__tools">
+              <button class="mini" type="button" data-action="edit-quote"
+                      data-id="{{ quote.id }}" title="Изменить">✎</button>
+              <button class="mini" type="button" data-action="delete-quote"
+                      data-id="{{ quote.id }}" title="Удалить">✕</button>
+            </span>
           {% endif %}
         </figure>
       {% endfor %}
@@ -26,4 +30,6 @@
     <p class="empty">Цитат пока нет. Добавьте первую в своей строке в таблице.</p>
   {% endif %}
 </section>
+
+{% if me %}{% include "_quote_sheet.html" %}{% endif %}
 {% endblock %}

@@ -29,7 +29,7 @@
       <span class="who__name" title="{{ me.full_name }}">{{ me.full_name }}</span>
       <button class="who__out" type="button" data-action="logout">Это не&nbsp;я</button>
     {% else %}
-      <span class="who__guest">режим чтения</span>
+      <a class="who__out" href="/enter/">Войти</a>
     {% endif %}
   </div>
 </header>

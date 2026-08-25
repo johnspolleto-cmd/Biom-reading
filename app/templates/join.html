@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Вступить в клуб — {{ app_name }}{% endblock %}
+
+{% block content %}
+<section class="enter" id="join-form-box">
+  {% if not join_enabled %}
+    <h1 class="enter__title">Набор сейчас закрыт</h1>
+    <p class="enter__text">Клуб «{{ club_name }}» временно не принимает новых участников.
+      Напишите администратору — он откроет набор или заведёт вас вручную.</p>
+    <a class="btn btn--ghost btn--wide" href="/">Смотреть таблицу</a>
+
+  {% else %}
+    <h1 class="enter__title">Вступить в клуб «{{ club_name }}»</h1>
+    <p class="enter__text">Заведите себе строку в общей таблице. Ни почты, ни пароля не нужно:
+      только имя и PIN из четырёх цифр.</p>
+
+    <form class="enter__form" data-form="join" data-code="{{ code }}">
+      {% if not code_ok %}
+        <label class="field">
+          <span>Код клуба</span>
+          <input type="text" id="join-code" maxlength="16" autocapitalize="characters"
+                 autocomplete="off" placeholder="восемь знаков из ссылки" required
+                 value="{{ code }}">
+          <small class="hint">Код есть в ссылке, которую администратор выложил в чат клуба.</small>
+        </label>
+      {% endif %}
+
+      <label class="field">
+        <span>Как вас записать в таблицу</span>
+        <input type="text" id="join-name" maxlength="160" autocomplete="name"
+               placeholder="Имя и фамилия" required>
+      </label>
+
+      <label class="field">
+        <span>Придумайте PIN</span>
+        <input type="password" id="join-pin" inputmode="numeric" pattern="[0-9]*" maxlength="4"
+               autocomplete="new-password" required>
+        <small class="hint">Понадобится, если зайдёте с другого устройства.</small>
+      </label>
+
+      <label class="field">
+        <span>Повторите PIN</span>
+        <input type="password" id="join-pin2" inputmode="numeric" pattern="[0-9]*" maxlength="4"
+               autocomplete="new-password" required>
+      </label>
+
+      <button class="btn btn--primary btn--wide" type="submit">Вступить</button>
+    </form>
+
+    <p class="enter__hint">Уже в клубе? <a href="/enter/">Войдите по своей ссылке</a>.</p>
+  {% endif %}
+</section>
+
+{# Показывается после успешного вступления: личная ссылка видна ровно один раз #}
+<section class="enter" id="join-done" hidden>
+  <h1 class="enter__title">Готово, вы в клубе</h1>
+  <p class="enter__text">Ваша строка уже в таблице. Сохраните персональную ссылку —
+    по ней вы зайдёте с другого устройства, когда закончится срок этого входа.</p>
+
+  <div class="joinlink">
+    <code class="joinlink__value" id="join-link"></code>
+    <button class="btn btn--small" type="button" data-action="copy-join-link">Скопировать</button>
+  </div>
+  <p class="enter__hint">Ссылку больше нигде не покажем. Потеряете — попросите администратора
+    перевыпустить.</p>
+
+  <a class="btn btn--primary btn--wide" href="/">К таблице</a>
+</section>
+{% endblock %}
