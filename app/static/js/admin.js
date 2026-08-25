@@ -32,7 +32,35 @@
     node.className = "toast toast--" + (kind || "info");
     node.textContent = message;
     box.appendChild(node);
-    setTimeout(() => node.remove(), 6000);
+    setTimeout(() => node.remove(), kind === "ok" ? 30000 : 6000);
+  }
+
+  async function copyToClipboard(text) {
+    if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch (_) {
+        // На HTTP и в некоторых версиях Safari используем запасной способ ниже.
+      }
+    }
+
+    const area = document.createElement("textarea");
+    area.value = text;
+    area.setAttribute("readonly", "");
+    area.style.position = "fixed";
+    area.style.left = "-9999px";
+    document.body.appendChild(area);
+    area.focus();
+    area.select();
+    area.setSelectionRange(0, area.value.length);
+    try {
+      return document.execCommand("copy");
+    } catch (_) {
+      return false;
+    } finally {
+      area.remove();
+    }
   }
 
   const escape = (text) =>
@@ -130,8 +158,12 @@
         const input = document.getElementById("new-member-name");
         const data = await api("POST", "/admin/members", { full_name: input.value.trim() });
         input.value = "";
-        note("Ссылка для «" + data.full_name + "»: " + data.link, "ok");
-        await navigator.clipboard.writeText(data.link).catch(() => {});
+        const copied = await copyToClipboard(data.link);
+        note(
+          "Ссылка для «" + data.full_name + "»: " + data.link +
+            (copied ? " (скопирована)" : " (скопируйте вручную)"),
+          "ok"
+        );
         await loadMembers();
       }
       if (form.dataset.form === "add-challenge") {
@@ -161,8 +193,12 @@
         switch (button.dataset.admin) {
           case "link": {
             const data = await api("POST", "/admin/members/" + id + "/link");
-            note("Новая ссылка: " + data.link + " (старая больше не работает)", "ok");
-            await navigator.clipboard.writeText(data.link).catch(() => {});
+            const copied = await copyToClipboard(data.link);
+            note(
+              "Новая ссылка: " + data.link + " (старая больше не работает; " +
+                (copied ? "новая скопирована)" : "скопируйте новую вручную)"),
+              "ok"
+            );
             await loadMembers();
             break;
           }
