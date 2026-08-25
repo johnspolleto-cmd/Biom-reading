@@ -45,6 +45,8 @@ class Level(db.Model):
     threshold_pages: Mapped[int] = mapped_column(sa.Integer, nullable=False)
     avatar_file: Mapped[str] = mapped_column(sa.String(120), nullable=False)
     color: Mapped[str] = mapped_column(sa.String(20), nullable=False, default="#6b7280")
+    # На тёмном фоне светлые пастельные цвета выцветают — нужен свой набор
+    color_dark: Mapped[str] = mapped_column(sa.String(20), nullable=False, default="#9ca3af")
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -53,6 +55,7 @@ class Level(db.Model):
             "threshold_pages": self.threshold_pages,
             "avatar": f"/static/levels/{self.avatar_file}",
             "color": self.color,
+            "color_dark": self.color_dark,
         }
 
 

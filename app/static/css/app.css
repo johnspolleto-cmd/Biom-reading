@@ -2,6 +2,7 @@
    Mobile-first: базовые стили рассчитаны на экран 375 px, десктоп добавляется медиазапросами. */
 
 :root {
+  color-scheme: light;
   --bg: #f6f4ef;
   --surface: #fffdf8;
   --ink: #1f2430;
@@ -12,9 +13,44 @@
   --up: #157a3f;
   --down: #b3261e;
   --start: #8a5a00;
+  --field-bg: #ffffff;      /* поля ввода и пресеты */
+  --track: #ece8de;         /* дорожка прогресс-бара */
+  --avatar-bg: #efece4;
+  --gold: #a8791a;          /* первое место */
+  --code-bg: #f2efe7;
+  --toast-bg: #1f2430;
+  --toast-ink: #ffffff;
+  --challenge-from: #2f6f4f;
+  --challenge-to: #3f8c63;
   --radius: 14px;
   --shadow: 0 1px 2px rgba(31, 36, 48, .06), 0 8px 24px rgba(31, 36, 48, .06);
   --tap: 44px; /* минимальная тач-цель */
+}
+
+/* Тёмная тема. Переключается тумблером в шапке; при первом заходе берётся
+   системная настройка — см. скрипт в <head> base.html. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0f1113;
+  --surface: #171b20;
+  --ink: #e9edf1;
+  --muted: #98a3ad;
+  --line: #2a3039;
+  --accent: #45d6a2;
+  --accent-ink: #06120d;
+  --up: #45d6a2;
+  --down: #f0796d;
+  --start: #e0ad6a;
+  --field-bg: #10141a;
+  --track: #232a33;
+  --avatar-bg: #232a33;
+  --gold: #d9a35c;
+  --code-bg: #10141a;
+  --toast-bg: #2a3039;
+  --toast-ink: #e9edf1;
+  --challenge-from: #1c4c37;
+  --challenge-to: #27664a;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px rgba(0, 0, 0, .35);
 }
 
 * { box-sizing: border-box; }
@@ -77,7 +113,7 @@ p { margin: 0 0 .6em; }
 
 /* --- баннер челленджа ------------------------------------------------------ */
 .challenge {
-  background: linear-gradient(135deg, #2f6f4f, #3f8c63);
+  background: linear-gradient(135deg, var(--challenge-from), var(--challenge-to));
   color: #fff; border-radius: var(--radius); padding: 16px; margin-bottom: 14px;
   box-shadow: var(--shadow);
 }
@@ -138,17 +174,17 @@ p { margin: 0 0 .6em; }
   font-size: 17px; font-weight: 700; color: var(--muted);
   min-width: 32px; text-align: center;
 }
-.row:first-child .rank__num { color: #a8791a; }
+.row:first-child .rank__num { color: var(--gold); }
 
 .row__who { grid-area: who; display: flex; gap: 10px; align-items: center; min-width: 0; }
-.row__avatar { width: 44px; height: 44px; border-radius: 12px; background: #efece4; flex: 0 0 auto; }
+.row__avatar { width: 44px; height: 44px; border-radius: 12px; background: var(--avatar-bg); flex: 0 0 auto; }
 .row__names { min-width: 0; }
 .row__name { font-weight: 650; font-size: 16px; display: flex; align-items: center; gap: 4px; }
 .row__book { color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
 
 .row__level { grid-area: level; }
 .level__name { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
-.level__bar { height: 8px; background: #ece8de; border-radius: 999px; overflow: hidden; }
+.level__bar { height: 8px; background: var(--track); border-radius: 999px; overflow: hidden; }
 .level__bar span {
   display: block; height: 100%; background: var(--level-color, var(--accent));
   transition: width .5s ease;
@@ -208,7 +244,7 @@ p { margin: 0 0 .6em; }
   padding: 9px 12px; font-size: 14px; display: flex; justify-content: space-between; gap: 10px;
 }
 .feed__item time { color: var(--muted); font-size: 11px; white-space: nowrap; }
-.feed__item--level_up { border-color: #cfe6d8; }
+.feed__item--level_up { border-color: var(--accent); }
 
 /* --- кнопка внесения страниц ------------------------------------------------ */
 .fab {
@@ -242,13 +278,13 @@ p { margin: 0 0 .6em; }
 .field > span { display: block; font-size: 13px; color: var(--muted); margin-bottom: 5px; }
 .field input, .field select, .field textarea {
   width: 100%; min-height: var(--tap); border: 1px solid var(--line); border-radius: 10px;
-  padding: 10px 12px; font: inherit; background: #fff; color: var(--ink);
+  padding: 10px 12px; font: inherit; background: var(--field-bg); color: var(--ink);
 }
 .field textarea { min-height: 90px; resize: vertical; }
 
 .presets { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 6px 0 12px; }
 .preset {
-  min-height: 56px; border: 1px solid var(--line); background: #fff; border-radius: 12px;
+  min-height: 56px; border: 1px solid var(--line); background: var(--field-bg); border-radius: 12px;
   font-size: 18px; font-weight: 650; cursor: pointer; color: var(--ink);
 }
 .preset:active { background: var(--accent); color: var(--accent-ink); }
@@ -310,7 +346,7 @@ p { margin: 0 0 .6em; }
   background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px;
   display: flex; justify-content: space-between; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 14px;
 }
-.admin__item code { font-size: 12px; word-break: break-all; background: #f2efe7; padding: 2px 6px; border-radius: 6px; }
+.admin__item code { font-size: 12px; word-break: break-all; background: var(--code-bg); padding: 2px 6px; border-radius: 6px; }
 .admin__actions { display: flex; gap: 6px; flex-wrap: wrap; }
 .admin__challenge { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; margin-bottom: 12px; }
 
@@ -320,11 +356,11 @@ p { margin: 0 0 .6em; }
   display: flex; flex-direction: column; gap: 8px; z-index: 60; width: min(92vw, 460px);
 }
 .toast {
-  background: var(--ink); color: #fff; border-radius: 12px; padding: 11px 14px; font-size: 14px;
+  background: var(--toast-bg); color: var(--toast-ink); border-radius: 12px; padding: 11px 14px; font-size: 14px;
   box-shadow: var(--shadow); animation: toast-in .18s ease;
 }
-.toast--error { background: var(--down); }
-.toast--ok { background: var(--accent); }
+.toast--error { background: var(--down); color: #fff; }
+.toast--ok { background: var(--accent); color: var(--accent-ink); }
 @keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
 /* --- переход на новый уровень ----------------------------------------------- */
@@ -337,7 +373,7 @@ p { margin: 0 0 .6em; }
   background: var(--surface); border-radius: 20px; padding: 26px; text-align: center;
   max-width: 340px; width: 100%; animation: pop .3s cubic-bezier(.2, .9, .3, 1.4);
 }
-.celebrate__avatar { width: 108px; height: 108px; border-radius: 24px; background: #efece4; }
+.celebrate__avatar { width: 108px; height: 108px; border-radius: 24px; background: var(--avatar-bg); }
 .celebrate__label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-top: 12px; }
 .celebrate__level { font-size: 24px; font-weight: 700; margin: 4px 0 2px; }
 .celebrate__total { color: var(--muted); font-size: 14px; margin-bottom: 16px; }
@@ -356,7 +392,23 @@ p { margin: 0 0 .6em; }
 
 .joinlink {
   display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
-  background: #f2efe7; border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px;
+  background: var(--code-bg); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px;
   margin-bottom: 10px;
 }
 .joinlink__value { font-size: 13px; word-break: break-all; flex: 1 1 200px; }
+
+/* --- цвет уровня в тёмной теме --------------------------------------------- */
+:root[data-theme="dark"] .row { border-left-color: var(--level-color-dark, var(--line)); }
+:root[data-theme="dark"] .level__bar span { background: var(--level-color-dark, var(--accent)); }
+
+/* --- тумблер темы ----------------------------------------------------------- */
+.theme {
+  border: 1px solid var(--line); background: transparent; color: var(--muted);
+  border-radius: 999px; width: 34px; height: 34px; min-height: 34px; padding: 0;
+  cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+  flex: 0 0 auto;
+}
+.theme svg { width: 17px; height: 17px; }
+.theme .theme__moon { display: none; }
+:root[data-theme="dark"] .theme .theme__sun { display: none; }
+:root[data-theme="dark"] .theme .theme__moon { display: inline; }

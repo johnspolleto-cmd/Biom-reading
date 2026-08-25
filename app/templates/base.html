@@ -3,8 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="color-scheme" content="light">
+<meta name="color-scheme" content="light dark">
 <title>{% block title %}{{ app_name }} — {{ app_tagline }}{% endblock %}</title>
+<script>
+  /* До отрисовки, иначе тёмная тема моргнёт светлым. Выбор участника важнее
+     системной настройки; пока выбора нет — берём системную. */
+  (function () {
+    try {
+      var saved = localStorage.getItem("chitkod-theme");
+      var dark = saved
+        ? saved === "dark"
+        : window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (dark) document.documentElement.setAttribute("data-theme", "dark");
+    } catch (e) {
+      /* приватный режим — остаёмся на светлой */
+    }
+  })();
+</script>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
 <link rel="icon" href="{{ url_for('static', filename='logo.svg') }}">
 </head>
@@ -25,6 +40,18 @@
     {% if me and me.is_admin %}<a href="/admin" class="tab {% if request.path == '/admin' %}is-active{% endif %}">Админка</a>{% endif %}
   </nav>
   <div class="who">
+    <button class="theme" type="button" data-action="toggle-theme"
+            title="Светлая или тёмная тема" aria-label="Переключить тему">
+      <svg class="theme__sun" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"></path>
+      </svg>
+      <svg class="theme__moon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"></path>
+      </svg>
+    </button>
     {% if me %}
       <span class="who__name" title="{{ me.full_name }}">{{ me.full_name }}</span>
       <button class="who__out" type="button" data-action="logout">Это не&nbsp;я</button>

@@ -369,6 +369,19 @@
     "close-celebrate": () => {
       document.getElementById("celebrate").hidden = true;
     },
+
+    "toggle-theme": () => {
+      const root = document.documentElement;
+      const dark = root.getAttribute("data-theme") !== "dark";
+      if (dark) root.setAttribute("data-theme", "dark");
+      else root.removeAttribute("data-theme");
+      try {
+        // Явный выбор перебивает системную настройку и переживает перезаход
+        localStorage.setItem("chitkod-theme", dark ? "dark" : "light");
+      } catch (err) {
+        // приватный режим: тема продержится до перезагрузки страницы
+      }
+    },
   };
 
   // --- привязка --------------------------------------------------------------

@@ -2,7 +2,7 @@
 <article class="row {% if me and me.id == row.member_id %}row--mine{% endif %}"
          data-row-id="{{ row.member_id }}" data-rank="{{ row.rank }}"
          data-total="{{ row.total_pages }}" data-week="{{ row.week_pages }}"
-         style="--level-color: {{ row.level.color }}">
+         style="--level-color: {{ row.level.color }}; --level-color-dark: {{ row.level.color_dark }}">
 
   <div class="row__rank" title="Место в рейтинге">
     <span class="rank__num">{{ row.rank }}</span>

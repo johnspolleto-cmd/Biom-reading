@@ -73,7 +73,7 @@ def _level_change(session, member_id: int, before: int, after: int) -> Optional[
     if new.idx <= old.idx:
         return None
     payload = {"level_idx": new.idx, "level_name": new.name, "total_pages": after,
-               "avatar": new.avatar, "color": new.color}
+               "avatar": new.avatar, "color": new.color, "color_dark": new.color_dark}
     events.record(session, "level_up", member_id, payload)
     return payload
 
