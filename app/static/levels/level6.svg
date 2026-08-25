@@ -1,8 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" role="img" aria-label="Хранитель Биома">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96"
+     role="img" aria-label="Хранитель Биома">
   <title>Хранитель Биома</title>
-  <rect width="96" height="96" rx="24" fill="#34d399" fill-opacity="0.18"/>
-  <rect x="3" y="3" width="90" height="90" rx="21" fill="none" stroke="#34d399" stroke-width="3"/>
-  <text x="48" y="56" font-size="38" text-anchor="middle" dominant-baseline="middle">🐉</text>
-  <text x="48" y="84" font-size="13" text-anchor="middle" fill="#34d399"
-        font-family="-apple-system, Segoe UI, Roboto, sans-serif" font-weight="700">6</text>
+  <!-- Процарапанный контур: шум смещает линию, как стило по бересте. -->
+  <defs><filter id="b" x="-14%" y="-14%" width="128%" height="128%"><feTurbulence type="fractalNoise" baseFrequency="0.25" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" xChannelSelector="R" yChannelSelector="G"/></filter></defs>
+  <g filter="url(#b)"><circle cx="48" cy="46" r="32" fill="#45d6a2" opacity=".1"></circle><path d="M26 88l8-38q14-12 28 0l8 38Z" fill="none" stroke="#45d6a2" stroke-width="4" stroke-linejoin="round"></path><path fill-rule="evenodd" fill="#45d6a2" d="M48 62a17 17 0 1 1 0-34 17 17 0 0 1 0 34Zm0-9a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"></path><path fill="#45d6a2" d="M50 22h16L54 36l-6-6Z"></path></g>
 </svg>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="color-scheme" content="light dark">
+<meta name="color-scheme" content="dark light">
 <title>{% block title %}{{ app_name }} — {{ app_tagline }}{% endblock %}</title>
 <script>
   /* До отрисовки, иначе тёмная тема моргнёт светлым. Выбор участника важнее
@@ -11,15 +11,18 @@
   (function () {
     try {
       var saved = localStorage.getItem("chitkod-theme");
-      var dark = saved
-        ? saved === "dark"
-        : window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-      if (dark) document.documentElement.setAttribute("data-theme", "dark");
+      var light = saved
+        ? saved === "light"
+        : !!(window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches);
+      if (light) document.documentElement.setAttribute("data-theme", "light");
     } catch (e) {
-      /* приватный режим — остаёмся на светлой */
+      /* приватный режим — остаёмся на тёмной */
     }
   })();
 </script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
 <link rel="icon" href="{{ url_for('static', filename='logo.svg') }}">
 </head>
@@ -27,7 +30,11 @@
 
 <header class="topbar">
   <a class="brand" href="/">
-    <img class="brand__logo" src="{{ url_for('static', filename='logo.svg') }}" alt="">
+    <svg class="brand__logo" viewBox="0 0 64 64" aria-hidden="true">
+      <path fill="currentColor" fill-rule="evenodd"
+            d="M31 62a21 21 0 1 1 0-42 21 21 0 0 1 0 42Zm0-13.5a9.5 9.5 0 1 0 0-19 9.5 9.5 0 0 0 0 19Z"></path>
+      <path fill="currentColor" d="M22 27 56 2 48 21Z"></path>
+    </svg>
     <span class="brand__text">
       <b>{{ app_name }}</b>
       <small>{{ app_tagline }}</small>

@@ -1,7 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="ЧитКод">
-  <title>ЧитКод — клуб БИОМ</title>
-  <rect width="64" height="64" rx="16" fill="#2f6f4f"/>
-  <path d="M14 18h16a6 6 0 0 1 6 6v24a5 5 0 0 0-5-5H14z" fill="#fffdf8" fill-opacity="0.95"/>
-  <path d="M50 18H34a6 6 0 0 0-6 6v24a5 5 0 0 1 5-5h17z" fill="#fffdf8" fill-opacity="0.75"/>
-  <circle cx="32" cy="26" r="3" fill="#2f6f4f"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64"
+     role="img" aria-label="БИОМ">
+  <title>БИОМ</title>
+  <!-- Знак клуба: литера «б» — толстое кольцо и отсечённый хвост-флаг.
+       Обведён по логотипу клуба. Если появится исходный вектор — замените файл.
+       Внутренний стиль нужен для фавикона: в <img> и во вкладке браузера
+       CSS страницы не действует, поэтому цвет выбирается по системной теме.
+       В шапке сайта знак вставлен инлайном и красится через currentColor. -->
+  <style>
+    .mark { fill: #1f2430; }
+    @media (prefers-color-scheme: dark) { .mark { fill: #e9edf1; } }
+  </style>
+  <path class="mark" fill-rule="evenodd"
+        d="M31 62a21 21 0 1 1 0-42 21 21 0 0 1 0 42Zm0-13.5a9.5 9.5 0 1 0 0-19 9.5 9.5 0 0 0 0 19Z"/>
+  <path class="mark" d="M22 27 56 2 48 21Z"/>
 </svg>

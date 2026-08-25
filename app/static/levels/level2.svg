@@ -1,8 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" role="img" aria-label="Первые шаги">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96"
+     role="img" aria-label="Первые шаги">
   <title>Первые шаги</title>
-  <rect width="96" height="96" rx="24" fill="#7dd3fc" fill-opacity="0.18"/>
-  <rect x="3" y="3" width="90" height="90" rx="21" fill="none" stroke="#7dd3fc" stroke-width="3"/>
-  <text x="48" y="56" font-size="38" text-anchor="middle" dominant-baseline="middle">🚼</text>
-  <text x="48" y="84" font-size="13" text-anchor="middle" fill="#7dd3fc"
-        font-family="-apple-system, Segoe UI, Roboto, sans-serif" font-weight="700">2</text>
+  <!-- Процарапанный контур: шум смещает линию, как стило по бересте. -->
+  <defs><filter id="b" x="-14%" y="-14%" width="128%" height="128%"><feTurbulence type="fractalNoise" baseFrequency="0.25" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" xChannelSelector="R" yChannelSelector="G"/></filter></defs>
+  <g filter="url(#b)"><g fill="none" stroke="#6fc7ee" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><circle cx="38" cy="26" r="9"></circle><path d="M38 35v22"></path><path d="M38 42l-13-5M38 42l14-3"></path><path d="M38 57l-6 22M38 57l12 12-2 8"></path><path d="M18 82h44" opacity=".28"></path><path d="M74 42q7 6 0 14" opacity=".6"></path><path d="M85 36q10 10 0 26" opacity=".3"></path></g></g>
 </svg>

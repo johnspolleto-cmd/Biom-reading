@@ -1,3 +1,4 @@
+{% from "_icons.html" import medal, lock %}
 {% extends "base.html" %}
 
 {% block content %}
@@ -20,7 +21,7 @@
         {% endif %}
       {% endif %}
       {% if challenge.winners_count %}
-        <span class="chip chip--win">🏅 выполнили: {{ challenge.winners_count }}</span>
+        <span class="chip chip--win">{{ medal() }} выполнили: <span class="num">{{ challenge.winners_count }}</span></span>
       {% endif %}
     </div>
   {% else %}
@@ -153,12 +154,12 @@
       <ul class="recent__list">
         {% for entry in my_entries %}
           <li data-entry="{{ entry.id }}">
-            <span>{{ entry.entry_date.strftime('%d.%m') }} · {{ entry.pages|pages }}</span>
+            <span class="num">{{ entry.entry_date.strftime('%d.%m') }} · {{ entry.pages|pages }}</span>
             {% if entry.id in editable_entry_ids %}
               <button class="mini" type="button" data-action="delete-entry" data-id="{{ entry.id }}"
                       title="Удалить">✕</button>
             {% else %}
-              <span class="mini mini--wide muted" title="Прошли сутки — правит администратор">🔒</span>
+              <span class="mini muted" title="Прошли сутки — правит администратор">{{ lock() }}</span>
             {% endif %}
           </li>
         {% endfor %}

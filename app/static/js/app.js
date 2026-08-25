@@ -372,12 +372,12 @@
 
     "toggle-theme": () => {
       const root = document.documentElement;
-      const dark = root.getAttribute("data-theme") !== "dark";
-      if (dark) root.setAttribute("data-theme", "dark");
+      const light = root.getAttribute("data-theme") !== "light";
+      if (light) root.setAttribute("data-theme", "light");
       else root.removeAttribute("data-theme");
       try {
         // Явный выбор перебивает системную настройку и переживает перезаход
-        localStorage.setItem("chitkod-theme", dark ? "dark" : "light");
+        localStorage.setItem("chitkod-theme", light ? "light" : "dark");
       } catch (err) {
         // приватный режим: тема продержится до перезагрузки страницы
       }

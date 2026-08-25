@@ -1,3 +1,4 @@
+{% from "_icons.html" import books, flame, medal %}
 {# Одна строка таблицы = один участник. Ядро продукта. #}
 <article class="row {% if me and me.id == row.member_id %}row--mine{% endif %}"
          data-row-id="{{ row.member_id }}" data-rank="{{ row.rank }}"
@@ -52,7 +53,7 @@
     <b class="total__num">{{ row.total_pages|number }}</b>
     <span class="total__word">{{ row.total_pages|pages_word }}</span>
     {% if row.books_finished %}
-      <span class="total__books" title="Дочитано книг">📚 {{ row.books_finished }}</span>
+      <span class="total__books" title="Дочитано книг">{{ books() }}<span class="num">{{ row.books_finished }}</span></span>
     {% endif %}
   </div>
 
@@ -60,10 +61,10 @@
     <span class="dyn dyn--{{ row.dynamics.tone }}">{{ row.dynamics.label }}</span>
     <span class="week__abs">{{ row.week_pages|pages }} за&nbsp;неделю</span>
     {% if row.streak_weeks > 1 %}
-      <span class="streak" title="Недель подряд без пропуска">🔥 {{ row.streak_weeks }}</span>
+      <span class="streak" title="Недель подряд без пропуска">{{ flame() }}<span class="num">{{ row.streak_weeks }}</span></span>
     {% endif %}
     {% for badge in row.badges if badge.is_current %}
-      <span class="badge" title="{{ badge.title }}">🏅</span>
+      <span class="badge" title="{{ badge.title }}">{{ medal() }}</span>
     {% endfor %}
   </div>
   </div>
